@@ -1,0 +1,290 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Auditing African Election Integrity at the Edge: A 250-Polling-Unit Forensic Vision AI Benchmark and Statutory Reconciliation Engine on Nigerian Form EC8A Result Sheets}
+\author{Owadokun Oluwatobi Ezekiel}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Once Form EC8A photos go onto the INEC Result Viewing Portal (IReV), there are often allegations of corruption and claims of INEC being partial. Citizens need to independently audit the IReV portal as soon as the results go up. With AI techniques available today, we can automate gathering and processing data from IReV so independent observers can become their own collation center and improve transparency. We built \textbf{EC8A-Sentinel} using 4-bit \texttt{Qwen2.5-VL-7B-Instruct} on a free Google Colab T4 GPU and tested it on \textbf{Osun-EC8A-250}, 250 election sheets across three local governments in Osun State ($3,750$ party cells and $1,000$ header fields). Otherwise, how do you read thousands of records and do the manual addition yourself? When more people can verify the sheets directly, post-election conversations can move from tribunals and lawsuits to accepting the people's choice. On the $3,750$ cells, we reached $98.77\%$ cell accuracy ($3,704$ cells right), with $222$ of $250$ sheets completely error-free ($88.80\%$), $0.00\%$ refusals, and $46$ misread cells ($1.23\%$). Normally, if an AI reads a cell wrong, say putting $10$ where there should be $100$, there is no automatic check to validate it. Section 64(4) of Nigeria's Electoral Act 2022 makes sure the party scores match the valid total at the bottom, and that helped us catch $95.65\%$ of AI mistakes ($44$ out of $46$) without anyone checking answer keys. Only two errors passed it, and both happened on one sheet where someone overwrote the printed \texttt{ADP} and \texttt{APC} party names backwards in biro. For Section 51(2) of the Electoral Act 2022, there is a rule that there cannot be more votes cast than accredited BVAS voters. Still, how do we check that rule without punishing voters when an officer simply made a mistake? Looking past header errors with our two-tier solver, we found that $38$ of the $58$ flagged polling units ($65.52\%$) were just clerical slip-ups where counted ballots stayed inside BVAS accreditation and should still count.
+\end{abstract}
+
+\section{Introduction}
+
+Paper polling-unit result sheets remain the legal backbone of elections across Sub-Saharan Africa \cite{inec2022electoral,kimani2022using,veza2024inec}. In Nigeria, once ballots are sorted and counted at a polling unit, the Presiding Officer uses a ballpoint pen (biro) to write biometric accreditation figures, ballot totals, and scores for each political party on the ballot onto INEC Form EC8A, then photographs the sheet directly with the BVAS device camera for upload to the INEC Result Viewing Portal (IReV) \cite{inec2022electoral,veza2024inec,uwakwe2026ai}. Yet once photos go onto IReV, allegations of corruption and partiality quickly follow, and citizens need a way to independently audit the portal as soon as results go up. Auditing thousands of sheets requires solving two linked tasks at once: reading exact handwritten numbers off tilted field photos (\texttt{Exact Match (\%)} and \texttt{Flawless Sheets (\%)}) and checking those numbers against Sections 51(2) and 64(4) of Nigeria's Electoral Act 2022 \cite{inec2022electoral,young2026irevsentinel}.
+
+Traditional OCR tools \cite{lecun1998gradient,li2023trocr,ouyang2025omnidocbench} fail on Form EC8A because they expect straight lines and flat paper, whereas real polling-unit photos rarely look like clean office scans. There is going to be camera tilt, paper folds, and evening shadows \cite{veza2024inec,icie2026shadow}, because the polling official snapping the sheet with the BVAS camera does not think about holding the device at an angle an AI prefers. As a result, accuracy drops from $99.00\%$ on clean lab numbers down to $66.55\%$ on real election tally sheets \cite{gondere2016election}, and crashes between $37.98\%$ and $61.28\%$ under 3D camera tilt \cite{zhou2026real5omnidocbench}. A $37.98\%$ accuracy rate is unusable on Election Day \cite{zhou2026real5omnidocbench}. Even when engineers crop vote tables carefully on African election sheets, table grid lines can still fuse with handwritten strokes and look like extra digits, turning normal counts into huge fake numbers such as \texttt{677000001 002} \cite{kimani2022using}. Modern Vision-Language Models (VLMs) \cite{bai2025qwen25vl,fu2025ocrbenchv2,alkhaled2025benchmarking,poznanski2025olmocr} skip brittle box croppers, yet because they are generative models, faint ballpoint ink makes them try to compensate from memory and hallucinate numbers instead of leaving cells blank ($63.28\%$ to $90.80\%$ of handwritten table errors \cite{zhang2026wildhandbench,koncile2025ocr}). Worse still, checking Section 51(2) of the Electoral Act 2022 ($V_{\text{cast}} > A_{\text{BVAS}}$) \cite{inec2022electoral} with a naive script flags whole polling units for cancellation when a tired officer simply wrote down the wrong number in the ``Total Ballot Papers Used'' box.
+
+To solve both the visual reading traps and the clerical over-voting trap, we built \textbf{EC8A-Sentinel}, an open-weight audit pipeline that pairs 4-bit vision extraction with a \textbf{Two-Tier Statutory Mathematical Reconciliation Engine}. Instead of chopping forms into fragile crops or shrinking photos until ink blurs, we pass full 3 to 4 MB IReV images directly into \texttt{Qwen2.5-VL-7B-Instruct} \cite{bai2025qwen25vl}. Using dynamic-resolution Vision Transformer patching (\texttt{NaViT}) \cite{dehghani2023navit} quantized to 4-bit NormalFloat (\texttt{NF4}) \cite{dettmers2023qlora}, the entire model fits on a single free Google Colab NVIDIA T4 GPU (16 GB VRAM). When an AI reads a vote box wrong, say putting $10$ instead of $100$ or dropping a $1$ in a mostly zero column, there is normally no built-in check to catch it. Adding the Electoral Act Section 64(4) Collation Sum rule ($\sum_{p=1}^{K} \hat{v}_p = \hat{V}_{\text{valid}}$ across the $K$ parties on the ballot) \cite{inec2022electoral} makes sure party votes add up to the valid total at the bottom and catches those mistakes automatically without answer keys. Alongside it, checking whether physical ballots counted out of the box ($\hat{V}_{\text{valid}} + \hat{V}_{\text{rejected}} \le \hat{A}_{\text{BVAS}}$) stay within BVAS biometric accreditation separates honest clerical slips from true over-voting.
+
+Just as important is keeping API costs at zero. Earlier election OCR projects \cite{kimani2022using,uwakwe2026ai,young2026irevsentinel} and large clinical register digitization efforts \cite{tweya2026digitising} relied on paid cloud APIs, custom bounding-box labels, or large review teams. When an audit system depends on paid Google or commercial API keys, it locks everyday citizens out and creates a barrier to entry. Nigeria has 176,846 registered polling units nationwide that must be processed one by one, and if you run two different models side by side to cross-check outputs on Election Day, paid API bills double right away into millions. Running an open-weight 7B model on a free Colab GPU lets any developer, journalist, or civic group pick it up, run their own checks, or build new tools on top without spending a fortune.
+
+We tested EC8A-Sentinel on \textbf{Osun-EC8A-250}, a benchmark of 250 authentic Form EC8A polling unit photos ($3,750$ handwritten party vote cells and $1,000$ administrative fields) across three Local Government Areas (\texttt{ATAKUMOSA EAST}, \texttt{ATAKUMOSA WEST}, and \texttt{AYEDAADE}) from the Osun State Governorship Election. Across $3,750$ cells covering $60,625$ human-verified votes, EC8A-Sentinel hit \textbf{98.77\%} \texttt{Exact Match (\%)} ($3,704$ / $3,750$ cells), \textbf{88.80\%} \texttt{Flawless Sheets (\%)} ($222$ / $250$ sheets), \textbf{1.23\%} \texttt{Hallucination (\%)} ($46$ errors), and \textbf{0.00\%} \texttt{Refusal (\%)}. Our Section 64(4) Collation Sum Gate caught \textbf{95.65\%} ($44$ / $46$) of all VLM reading errors on its own. Inspecting the only two errors that slipped past the math gate (on Polling Unit \texttt{29/01/07/001}) showed that someone had altered the paper sheet itself by overwriting the printed \texttt{ADP} and \texttt{APC} party labels backwards in biro, shifting $60$ votes between them while leaving the column sum unchanged. Meanwhile, our Two-Tier Section 51(2) Solver proved that \textbf{65.52\%} ($38$ / $58$) of polling units flagged for literal over-voting were honest Presiding Officer clerical slips whose counted ballots obeyed biometric accreditation.
+
+Our main contributions in this paper are three-fold:
+\begin{itemize}
+    \item \textbf{The Osun-EC8A-250 Forensic Benchmark:} We curate and release a 250-polling-unit benchmark of authentic INEC IReV Form EC8A camera photos with human ground truth across 3,750 party vote cells and 1,000 administrative fields.
+    \item \textbf{Zero-Cost 4-Bit Vision Extraction and Biro Tampering Discovery:} We show that 4-bit \texttt{Qwen2.5-VL-7B-Instruct} (\texttt{NF4}) on a free T4 GPU reaches $98.77\%$ field-level \texttt{Exact Match (\%)} and $99.92\%$ zero-cell specificity on uncropped 3 to 4 MB photos, beating recent handwritten table benchmarks (\texttt{WildHandBench} at $53.63\%$ to $60.44\%$) by over 38 percentage points while exposing how VLM row-position priors react when printed party names are rewritten in biro ink.
+    \item \textbf{Two-Tier Statutory Reconciliation Engine:} We formulate a legal math solver grounded in Sections 51(2) and 64(4) of Nigeria's Electoral Act 2022 that traps $95.65\%$ of AI reading errors without human labels and saves $65.52\%$ of raw over-voting flags from wrongful cancellation.
+\end{itemize}
+
+\section{Related Work}
+
+\subsection{Handwritten Form and Table Recognition with Vision-Language Models}
+
+Reading isolated digits in a clean box is a solved problem, but reading handwritten numbers inside a noisy multi-row table is not. Classic convolutional nets on centered MNIST digits score $98.70\%$ to $99.87\%$ \cite{lecun1998gradient}, while transformer OCR models like TrOCR \cite{li2023trocr} and top VLMs reach $1.75\%$ to $2.89\%$ Character Error Rate (CER) on cropped lines of the IAM Handwriting Database \cite{koncile2025ocr}. Put those same models on real government forms and accuracy falls apart. Gondere et al.\ \cite{gondere2016election} cropped 64,596 handwritten digits written by over 1,000 polling station workers on election tally sheets and watched an MNIST-trained classifier drop from $99.00\%$ lab accuracy to $66.55\%$ in the field ($89.32\%$ after retraining with a Variational Autoencoder and BiLSTM). Thick biro strokes, off-center writing, and numbers touching box borders caused most of the damage. Multi-domain VLM OCR benchmarks \cite{alkhaled2025benchmarking,fu2025ocrbenchv2,poznanski2025olmocr} and Koncile's 17-model test on 49 handwritten medical forms \cite{koncile2025ocr} tell the same story, with the best VLMs capping out at $85.00\%$ field accuracy and making up wrong numbers in $6.00\%$ of fields. More recently, Zhang et al.\ \cite{zhang2026wildhandbench} tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit $60.44\%$ Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit $53.63\%$, and PaddleOCR-VL-1.6 hit $52.41\%$, with $63.28\%$ to $90.80\%$ of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE). Instead of trusting raw VLM decoding on its own, EC8A-Sentinel pairs 4-bit \texttt{Qwen2.5-VL-7B-Instruct} \cite{bai2025qwen25vl,dettmers2023qlora,dehghani2023navit} with a hard statutory sum gate that catches $95.65\%$ of omissions and truncations right away.
+
+\subsection{Physical Camera Degradations and Layout Parsing in the Wild}
+
+Field photos taken at polling units add perspective tilt, uneven lighting, and paper creases on top of messy handwriting. Even on clean PDF pages in OmniDocBench \cite{ouyang2025omnidocbench}, GPT-4o's edit distance jumps fourfold from $0.157$ on printed text to $0.607$ on handwriting. To measure real camera distortion, Zhou et al.\ \cite{zhou2026real5omnidocbench} built Real5-OmniDocBench by shooting 1,355 pages across 6,775 photos under five physical setups: flat scans, bad lighting and shadows, warped or folded paper, screen re-photography, and 3D camera skew. Multi-stage OCR pipelines crashed under 3D camera tilt and paper folds: PP-StructureV3 dropped from $84.68$ to $37.98$ ($-46.70$ points), Marker-1.8.2 fell from $70.27$ to $41.27$ ($-29.00$ points), and DeepSeek-OCR 2 slid from $89.59$ to $61.28$ ($-28.31$ points) because curved rows break rectangular box detectors \cite{zhou2026real5omnidocbench}. Pratama and Hidayat \cite{icie2026shadow} similarly showed that overhead phone shadows and dim light push Character Error Rate from $14.23\%$ to $22.71\%$ on mobile document captures. Rather than using brittle corner detectors or box-cropping scripts that break on tilted sheets, we use native dynamic-resolution \texttt{NaViT} patching \cite{dehghani2023navit,bai2025qwen25vl} across full-page Form EC8A photos and pinpoint the exact real-world failure mode that still fools visual readers: manual biro overwrites of printed party names on the paper sheet.
+
+\subsection{Computational Election Auditing and African Paper-Form Digitization}
+
+Every major attempt to digitize African paper records has run into clear practical limits without open-weight domain checks. During Kenya's 2022 Presidential Election across 46,229 polling stations, Kimani \cite{kimani2022using} found that feeding full Form 34A scans into AWS Textract and Google Cloud Document AI failed because of noisy page layouts. Cropping the vote table with a custom YOLOv5 detector ($0.9$ IoU) raised AWS Textract digit accuracy to $97.00\%$, yet in the remaining $3.00\%$ error tail, reading a printed table line together with handwritten numbers pushed counts into absurd billion-vote strings (like \texttt{677000001 002}), forcing human volunteers to step in to reach a $0.3\%$ to $0.4\%$ national margin \cite{kimani2022using}. In Malawi's public health clinics, Tweya et al.\ \cite{tweya2026digitising} digitized $3,082,406$ handwritten records across 545 facilities using QED.ai ScanForm, reaching $>99\%$ accuracy only because they could use custom pre-banded clinic forms and confidence-routed human review. Meanwhile in Nigeria, after a Veza News forensic investigation \cite{veza2024inec} exposed $77\%$ blurry Form EC8A uploads in Gombe State and manual biro alterations in Rivers State during the 2023 election, civic-tech teams explored dual-model consensus (Mundx Analytics covering $97.7\%$ of Osun IReV uploads \cite{uwakwe2026ai}) and paid Gemini 2.5 Flash extraction with Electoral Act checks (IReV-Sentinel Pro 2.0 \cite{young2026irevsentinel}). While human reviewers remain essential for final disputed checks, systems built around paid Gemini API keys cost money that locks out everyday developers who have zero budget yet want to monitor democracy in their country, and literal single-box Section 51(2) checks \cite{inec2022electoral,young2026irevsentinel} punish valid polling units over simple officer math slips. Our work bridges that gap: an open-weight, zero-API-cost 250-sheet Form EC8A benchmark that exposes how biro party-row swaps evade numeric column sums and separates Presiding Officer subtraction slips from genuine over-voting.
+
+\section{Methodology}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_framework_overview.png}
+\caption{System architecture of the EC8A-Sentinel visual-statutory election audit pipeline, showing raw 3 to 4 MB INEC IReV Form EC8A camera photo input into 4-bit quantized Qwen2.5-VL-7B-Instruct with dynamic-resolution NaViT patching, followed by the Electoral Act Section 64(4) Collation Sum Gate (catching 95.65\% of VLM reading errors) and the Two-Tier Section 51(2) Clerical-Slip Solver.}
+\label{fig:framework_overview}
+\end{figure}
+
+\subsection{Problem Formulation and the Osun-EC8A-250 Dataset Architecture}
+
+An official Nigerian polling unit result sheet (INEC Form EC8A) is a physical paper record photographed in the field as an RGB image $I \in \mathbb{R}^{H \times W \times 3}$ (Figure~\ref{fig:framework_overview}). Each form has two linked sections. Part A records voter accreditation and ballot accounting figures: the number of voters accredited on the Bimodal Voter Accreditation System ($A_{\text{BVAS}} \in \mathbb{Z}_{\ge 0}$) alongside the ballot summary boxes $(V_{\text{valid}}, V_{\text{rejected}}, V_{\text{cast}}) \in \mathbb{Z}_{\ge 0}^3$. Part B is a $K$-row table listing the $K$ political parties contesting that specific election $\mathcal{P} = \{p_1, \dots, p_K\}$ (configured in advance for the ballot, since a given state or national election may list $8$, $15$, or $18$ parties; in the Osun State Governorship Election, $K = 15$ with $\mathcal{P} = \{\text{\texttt{A}}, \text{\texttt{AA}}, \text{\texttt{AAC}}, \text{\texttt{ADC}}, \text{\texttt{ADP}}, \text{\texttt{APC}}, \text{\texttt{APGA}}, \text{\texttt{APM}}, \text{\texttt{APP}}, \text{\texttt{BP}}, \text{\texttt{NNPP}}, \text{\texttt{PRP}}, \text{\texttt{SDP}}, \text{\texttt{YPP}}, \text{\texttt{ZLP}}\}$) next to their handwritten figure scores $\mathbf{v} = (v_1, \dots, v_K) \in \mathbb{Z}_{\ge 0}^K$ and written word scores \cite{inec2022electoral}. Our extraction task maps each camera photo $I_i$ ($i \in \{1, \dots, N\}$) into a structured tuple:
+\begin{equation}
+f_{\theta}(I_i) = \left(\hat{\mathbf{v}}_i, \hat{A}_{\text{BVAS}, i}, \hat{V}_{\text{valid}, i}, \hat{V}_{\text{rejected}, i}, \hat{V}_{\text{cast}, i}\right),
+\label{eq:extraction_tuple}
+\end{equation}
+and then runs statutory math verification on Equation~\ref{eq:extraction_tuple}.
+
+Because existing handwriting datasets focus on isolated lab digits \cite{lecun1998gradient,gondere2016election} or general notes without legal math constraints \cite{zhang2026wildhandbench,ouyang2025omnidocbench}, we built the \textbf{Osun-EC8A-250} benchmark corpus. It holds $N = 250$ authentic, uncropped 3 to 4 MB BVAS camera photos of Form EC8A sheets uploaded to the INEC IReV portal during the Osun State Governorship Election across three Local Government Areas: \texttt{ATAKUMOSA EAST} (75 polling units), \texttt{ATAKUMOSA WEST} (75 polling units), and \texttt{AYEDAADE} (100 polling units). We manually verified the ground-truth counts for every image across all $K = 15$ political parties on the Osun ballot. In total, the benchmark covers $250 \times 15 = 3,750$ handwritten party vote cells ($60,625$ candidate votes across $1,281$ non-zero cells and $2,469$ zero-vote cells) plus $250 \times 4 = 1,000$ administrative accounting fields ($59,825$ human-verified valid votes).
+
+\subsection{4-Bit Quantized Dynamic-Resolution Vision Extraction (\texttt{Qwen2.5-VL-7B-NF4})}
+
+We kept the original uncropped 3 to 4 MB Form EC8A photos because shrinking them down hurts thin ballpoint pen strokes. When an election sheet is resized too small, a thin stroke like a digit \texttt{1} can blur right into the printed box borders and throw off the reading, adding or dropping digits from a candidate's tally. In a tight, contested election, missing even one digit like that can be telling. Having our sum check at the bottom helps flag mismatched numbers later, of course, but it helps even more to read the original photo as accurately as possible in the first place. To keep full image resolution on free cloud hardware, EC8A-Sentinel runs \texttt{Qwen2.5-VL-7B-Instruct} ($7.6$ billion parameters) \cite{bai2025qwen25vl} quantized to 4-bit NormalFloat (\texttt{NF4}) \cite{dettmers2023qlora}. For each weight matrix $\mathbf{W} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$, \texttt{NF4} quantization splits $\mathbf{W}$ into blocks of size $B = 64$ and maps every weight $w$ to the nearest quantile $q_k \in [-1, 1]$ ($k \in \{0, \dots, 15\}$) of a standard normal distribution $\mathcal{N}(0, 1)$, storing scale factors in 16-bit floating point while computing matrix products in \texttt{float16}:
+\begin{equation}
+\hat{\mathbf{W}}_{\text{NF4}} = \text{dequant}\!\left(\arg\min_{k \in \{0,\dots,15\}} \left| \frac{w}{\max |\mathbf{W}_b|} - q_k \right|\right).
+\label{eq:nf4}
+\end{equation}
+This cuts the memory footprint of \texttt{Qwen2.5-VL-7B-Instruct} from over $15.2$ GB in \texttt{float16} down to roughly $5.8$ GB. The whole model fits easily on a single free Google Colab NVIDIA T4 GPU (16 GB GDDR6 VRAM) at $\$0.00$ API cost.
+
+Traditional OCR tools and cropped-line readers \cite{li2023trocr,zhou2026real5omnidocbench,kimani2022using} fail on uncropped Form EC8A photos because square resizing crushes fine pen strokes and camera tilt warps horizontal row alignment. \texttt{Qwen2.5-VL-7B-Instruct} avoids this by using a native dynamic-resolution Vision Transformer (\texttt{NaViT}) \cite{dehghani2023navit,bai2025qwen25vl}. It slices each photo $I_i$ at its native $H \times W$ aspect ratio into $14 \times 14$ pixel patches and merges adjacent $2 \times 2$ patches into visual tokens without stretching the image. That keeps each printed party acronym on the left side of Part B visually locked to its handwritten biro score on the right, running greedy zero-shot JSON decoding (\texttt{do\_sample=False}, \texttt{max\_new\_tokens=512}) in $62.97$ seconds per sheet on average.
+
+\subsection{Two-Tier Statutory Mathematical Reconciliation Engine (Electoral Act Sections 51 and 64)}
+
+Even $98\%$+ field accuracy is not enough for legal election collation if the remaining $1\%$ to $2\%$ of AI mistakes invent votes or drop leading digits \cite{kimani2022using,zhang2026wildhandbench}. At the same time, auditing the numbers written by human Presiding Officers requires separating harmless arithmetic slips from real fraud. We designed a two-tier verification engine built directly on Nigeria's Electoral Act 2022 \cite{inec2022electoral}.
+
+\paragraph{Tier 1: Unsupervised VLM Error Interception via Section 64(4) Collation Sum Invariant.}
+Under Section 64(4) to (6) of the Electoral Act 2022 \cite{inec2022electoral}, a collation officer must confirm that the sum of party scores equals the total valid votes recorded on Form EC8A. We define the binary Section 64(4) Collation Balance Indicator $B_{64, i} \in \{0, 1\}$ for polling unit $i$ as:
+\begin{equation}
+B_{64, i} = \mathbb{I}\!\left( \sum_{p \in \mathcal{P}} \hat{v}_{i, p} = \hat{V}_{\text{valid}, i} \right), \quad \Delta_{64, i} = \sum_{p \in \mathcal{P}} \hat{v}_{i, p} - \hat{V}_{\text{valid}, i}.
+\label{eq:sec64}
+\end{equation}
+Almost every VLM reading mistake on an election sheet, whether missing a small digit in a sparse row ($\hat{v}_{i,p} = 0$ when $v_{i,p} \in \{1,\dots,4\}$) or dropping a leading hundred digit on a grid line ($\hat{v}_{i,p} = v_{i,p} - 100$), changes the party sum $\sum_p \hat{v}_{i,p}$ without altering the separately read header $\hat{V}_{\text{valid}, i}$. Any error that does not cancel itself out forces $\Delta_{64, i} \ne 0$ ($B_{64, i} = 0$). Equation~\ref{eq:sec64} acts as an automatic checksum that traps $95.65\%$ (44 / 46) of all VLM party-cell errors without human labels.
+
+\paragraph{Tier 2: Clerical-Slip Disentanglement under Section 51(2) Over-Voting Check.}
+Section 51(2) of the Electoral Act 2022 states that \emph{``where the number of votes cast at an election in any polling unit exceeds the number of accredited voters in that polling unit, the Presiding Officer shall cancel the result of the election in that polling unit''} \cite{inec2022electoral}. A naive script checks this rule with a single inequality:
+\begin{equation}
+F_{51, i}^{\text{raw}} = \mathbb{I}\!\left( \hat{V}_{\text{cast}, i} > \hat{A}_{\text{BVAS}, i} \right).
+\label{eq:sec51_raw}
+\end{equation}
+Looking closely at the real Form EC8A sheets in Osun-EC8A-250 reveals why that single check fails so often. At the end of a long election day, tired Presiding Officers frequently fill the ``Total Number of Used Ballot Papers'' box ($\hat{V}_{\text{cast}, i}$) by subtracting unused ballot booklet serial numbers in their head instead of adding $\hat{V}_{\text{valid}, i} + \hat{V}_{\text{rejected}, i}$. Also, when a voter spoils a ballot paper and gets a fresh one, the count of used paper stubs goes up even though only one ballot goes into the box. To stop harmless paper-stub math slips from canceling valid polling units, we compute the \textbf{Reconciled Physical Ballots Cast} $\tilde{V}_{\text{cast}, i} = \hat{V}_{\text{valid}, i} + \hat{V}_{\text{rejected}, i}$ and split all polling units where $F_{51, i}^{\text{raw}} = 1$ into two forensic classes:
+\begin{align}
+\text{\textbf{Class I (Benign Clerical Slip):}} \quad & F_{51, i}^{\text{raw}} = 1 \;\wedge\; B_{64, i} = 1 \;\wedge\; \left(\tilde{V}_{\text{cast}, i} \le \hat{A}_{\text{BVAS}, i}\right), \label{eq:class1} \\
+\text{\textbf{Class II (Unresolved Over-Voting Anomaly):}} \quad & F_{51, i}^{\text{raw}} = 1 \;\wedge\; \left(\tilde{V}_{\text{cast}, i} > \hat{A}_{\text{BVAS}, i} \;\lor\; B_{64, i} = 0\right). \label{eq:class2}
+\end{align}
+When a polling unit satisfies Equation~\ref{eq:class1}, all $K$ party scores on the ballot add up cleanly to $\hat{V}_{\text{valid}, i}$ ($B_{64, i} = 1$), and the actual ballots counted out of the ballot box ($\hat{V}_{\text{valid}, i} + \hat{V}_{\text{rejected}, i}$) do not exceed biometric accreditation $\hat{A}_{\text{BVAS}, i}$. The larger number written in $\hat{V}_{\text{cast}, i}$ is proven to be a clerical header slip, not over-voting.
+
+\section{Experiments}
+
+\subsection{Experimental Setup, Baselines, and Evaluation Protocol}
+
+We ran EC8A-Sentinel across all 250 polling unit sheets ($3,750$ party vote cells and $1,000$ administrative fields) of the \textbf{Osun-EC8A-250} benchmark on a single Google Colab NVIDIA T4 GPU (16 GB VRAM) using 4-bit \texttt{NF4} quantization via \texttt{BitsAndBytesConfig} \cite{dettmers2023qlora}. Processing all 250 high-resolution (3 to 4 MB) photos streamed from the INEC IReV archive took $4.37$ hours in total ($62.97$ seconds per sheet) and cost $\$0.00$ in API fees.
+
+Following standard document intelligence and election audit benchmarks \cite{gondere2016election,zhang2026wildhandbench,kimani2022using}, we evaluate seven metrics: (1) \texttt{Exact Match (\%)} ($\uparrow$), the share of the $3,750$ handwritten party cells where the AI integer matches human ground truth; (2) \texttt{Hallucination (\%)} ($\downarrow$), the share of cells where the AI outputs a wrong integer (\texttt{Total Errors} / $3,750$); (3) \texttt{Refusal (\%)} ($\downarrow$), the share of cells where the model fails to return an integer; (4) \texttt{Flawless Sheets (\%)} ($\uparrow$), the share of polling units with $15/15$ ($100.00\%$) exact party matches; (5) \texttt{Absolute Vote Error} ($\downarrow$), the total vote difference $\sum_i |\hat{v}_{i,p} - v_{i,p}|$; (6) \texttt{Sec64 Balanced (\%)} ($\uparrow$), the share of sheets passing Equation~\ref{eq:sec64}; and (7) \texttt{Sec51 Flagged (\%)} ($\downarrow$), split into Class I Benign Clerical Slips (Equation~\ref{eq:class1}) and Class II Unresolved Over-Voting Anomalies (Equation~\ref{eq:class2}). We compare EC8A-Sentinel against seven published baselines spanning election tally sheets (\texttt{MNIST-ICR Unadapted} and \texttt{MNIST+CVL Retrained BiLSTM} \cite{gondere2016election}), multi-field medical forms (\texttt{Koncile Best VLM} \cite{koncile2025ocr}), wild handwritten tables (\texttt{WildHandBench Gemini 3.5 Flash}, \texttt{Gemini 3.1 Pro}, and \texttt{PaddleOCR-VL-1.6} \cite{zhang2026wildhandbench}), and cropped African election forms (\texttt{YOLOv5 + AWS Textract} on Kenya Form 34A \cite{kimani2022using}).
+
+\begin{table}[t]
+\caption{Overall benchmark comparison of handwritten field extraction accuracy, hallucination rate, refusal rate, and sheet-level fidelity on Osun-EC8A-250 against published handwritten form and table baselines.}
+\label{tab:overall_benchmark}
+\centering
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Method & Dataset & Evaluated Fields $\uparrow$ & Exact Match (\%) $\uparrow$ & Hallucination (\%) $\downarrow$ & Refusal (\%) $\downarrow$ & Flawless Sheets (\%) $\uparrow$ \\
+\midrule
+MNIST-ICR Unadapted \cite{gondere2016election} & Electoral Tally Sheets & 64596 & 66.55 & 33.45 & 0.00 & 0.00 \\
+MNIST+CVL Retrained BiLSTM \cite{gondere2016election} & Electoral Tally Sheets & 64596 & 89.32 & 10.68 & 0.00 & 0.00 \\
+Koncile Best VLM \cite{koncile2025ocr} & Medical Registry Forms & 490 & 85.00 & 6.00 & 9.00 & 0.00 \\
+WildHandBench Gemini 3.5 Flash \cite{zhang2026wildhandbench} & WildHandBench Tables & 500 & 53.63 & 46.37 & 0.00 & 0.00 \\
+WildHandBench Gemini 3.1 Pro \cite{zhang2026wildhandbench} & WildHandBench Tables & 500 & 60.44 & 39.56 & 0.00 & 0.00 \\
+WildHandBench PaddleOCR-VL-1.6 \cite{zhang2026wildhandbench} & WildHandBench Tables & 500 & 52.41 & 47.59 & 0.00 & 0.00 \\
+YOLOv5 + AWS Textract \cite{kimani2022using} & Kenya Form 34A & 46229 & 97.00 & 3.00 & 0.00 & 97.00 \\
+\midrule
+\textbf{EC8A-Sentinel (Qwen2.5-VL-7B 4-bit)} & \textbf{Osun-EC8A-250} & \textbf{3750} & \textbf{98.77} & \textbf{1.23} & \textbf{0.00} & \textbf{88.80} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{figures/fig_benchmark_comparison.png}
+\caption{Grouped bar chart comparing handwritten field extraction accuracy (Exact Match \%) and error rate (Hallucination \%) of EC8A-Sentinel (Qwen2.5-VL-7B 4-bit on Osun-EC8A-250, reaching 98.77\% exact match and 1.23\% hallucination) against seven published lab, medical form, and wild handwritten table baselines.}
+\label{fig:benchmark_comparison}
+\end{figure}
+
+\subsection{Main Extraction Results: Per-Party and LGA-Level Performance}
+
+Table~\ref{tab:overall_benchmark} and Figure~\ref{fig:benchmark_comparison} show how EC8A-Sentinel stacks up against prior handwritten form benchmarks. Across $3,750$ handwritten party vote cells on $250$ uncropped Form EC8A camera photos, 4-bit \texttt{Qwen2.5-VL-7B-Instruct} hits $98.77\%$ \texttt{Exact Match (\%)} ($3,704$ / $3,750$ cells), holding the error rate to $1.23\%$ ($46$ misread cells) with a $0.00\%$ refusal rate ($0$ refusals). At the full-sheet level, $222$ out of $250$ polling units ($88.80\%$ \texttt{Flawless Sheets (\%)}) get all $15/15$ political party scores right. Another $18$ sheets ($7.20\%$) have just $1$ party error, $6$ sheets ($2.40\%$) have $2$ errors, and only $4$ sheets ($1.60\%$) have $3$ or more errors. Compared to unadapted MNIST classifiers on election tally sheets ($66.55\%$) and retrained Variational Autoencoder BiLSTMs ($89.32\%$) \cite{gondere2016election}, EC8A-Sentinel improves digit accuracy by $+32.22$ and $+9.45$ percentage points without box cropping or task-specific fine-tuning. Against full-page handwritten table readers on WildHandBench ($53.63\%$ for Gemini 3.5 Flash, $60.44\%$ for Gemini 3.1 Pro, and $52.41\%$ for PaddleOCR-VL-1.6) \cite{zhang2026wildhandbench}, anchoring \texttt{Qwen2.5-VL-7B-Instruct} to the 15-party schema of Form EC8A yields a $+38.33$ to $+46.36$ percentage-point gain, and beats the $97.00\%$ accuracy of YOLOv5 + AWS Textract on cropped Kenyan Form 34A sheets \cite{kimani2022using} by $+1.77$ percentage points.
+
+\begin{table}[t]
+\caption{Per-party handwritten vote extraction accuracy, aggregate ground-truth versus AI-extracted vote sums, and absolute vote variance across all 15 political parties on Osun-EC8A-250 (250 polling units, 3,750 evaluated cells).}
+\label{tab:per_party}
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+Party & Evaluated Cells $\uparrow$ & Correct Cells $\uparrow$ & Total Errors $\downarrow$ & Exact Match (\%) $\uparrow$ & Ground Truth Votes $\uparrow$ & AI Extracted Votes $\uparrow$ & Absolute Vote Error $\downarrow$ & Non-Zero Cells $\uparrow$ \\
+\midrule
+A & 250 & 242 & 8 & 96.80 & 27939 & 27498 & 545 & 248 \\
+AA & 250 & 237 & 13 & 94.80 & 171 & 155 & 16 & 104 \\
+AAC & 250 & 245 & 5 & 98.00 & 129 & 123 & 6 & 83 \\
+ADC & 250 & 246 & 4 & 98.40 & 818 & 809 & 9 & 209 \\
+ADP & 250 & 246 & 4 & 98.40 & 199 & 260 & 71 & 121 \\
+APC & 250 & 245 & 5 & 98.00 & 30965 & 30640 & 337 & 249 \\
+APGA & 250 & 248 & 2 & 99.20 & 115 & 113 & 2 & 74 \\
+APM & 250 & 250 & 0 & 100.00 & 15 & 15 & 0 & 14 \\
+APP & 250 & 250 & 0 & 100.00 & 7 & 7 & 0 & 7 \\
+BP & 250 & 250 & 0 & 100.00 & 4 & 4 & 0 & 4 \\
+NNPP & 250 & 250 & 0 & 100.00 & 6 & 6 & 0 & 6 \\
+PRP & 250 & 250 & 0 & 100.00 & 3 & 3 & 0 & 3 \\
+SDP & 250 & 248 & 2 & 99.20 & 13 & 20 & 9 & 13 \\
+YPP & 250 & 248 & 2 & 99.20 & 42 & 40 & 2 & 36 \\
+ZLP & 250 & 249 & 1 & 99.60 & 199 & 206 & 7 & 110 \\
+\midrule
+\textbf{Total / Overall} & \textbf{3750} & \textbf{3704} & \textbf{46} & \textbf{98.77} & \textbf{60625} & \textbf{59899} & \textbf{1004} & \textbf{1281} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:per_party} breaks down extraction accuracy across all 15 political parties on the Osun ballot. Five minor parties (\texttt{APM}, \texttt{APP}, \texttt{BP}, \texttt{NNPP}, and \texttt{PRP}) hit $100.00\%$ \texttt{Exact Match (\%)} ($250/250$ cells each, $0$ errors), and four others (\texttt{ZLP} at $99.60\%$, plus \texttt{APGA}, \texttt{SDP}, and \texttt{YPP} at $99.20\%$) have just $1$ or $2$ errors across all 250 sheets. For the two leading parties that together account for $97.16\%$ of all votes cast, \texttt{APC} ($30,965$ ground-truth votes across $249$ non-zero polling units) and Party \texttt{A} ($27,939$ ground-truth votes across $248$ non-zero polling units), EC8A-Sentinel reaches $98.00\%$ ($245/250$) and $96.80\%$ ($242/250$) exact match accuracy. Across the $2,469$ zero-vote cells where Presiding Officers wrote \texttt{0}, \texttt{00}, a dash \texttt{-}, or left the row blank, the model outputs $0$ in $2,467$ cases ($99.92\%$ zero-cell specificity), hallucinating a non-zero number on only $2$ zero-vote cells in the entire dataset (both on \texttt{ADP}).
+
+\begin{table}[t]
+\caption{Local Government Area (LGA) performance breakdown of visual extraction accuracy, sheet-level perfection, and statutory Electoral Act audit flags across Osun-EC8A-250.}
+\label{tab:lga_breakdown}
+\centering
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Dataset & Audited Sheets $\uparrow$ & Evaluated Fields $\uparrow$ & Correct Cells $\uparrow$ & Exact Match (\%) $\uparrow$ & Flawless Sheets (\%) $\uparrow$ & Sec51 Flagged (\%) $\downarrow$ & Sec64 Balanced (\%) $\uparrow$ \\
+\midrule
+ATAKUMOSA EAST & 75 & 1125 & 1100 & 97.78 & 82.67 & 22.67 & 78.67 \\
+ATAKUMOSA WEST & 75 & 1125 & 1121 & 99.64 & 96.00 & 18.67 & 94.67 \\
+AYEDAADE & 100 & 1500 & 1483 & 98.87 & 88.00 & 27.00 & 79.00 \\
+\midrule
+\textbf{Osun-EC8A-250 Total} & \textbf{250} & \textbf{3750} & \textbf{3704} & \textbf{98.77} & \textbf{88.80} & \textbf{23.20} & \textbf{83.60} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:lga_breakdown} shows performance across the three Local Government Areas in \textbf{Osun-EC8A-250}. Accuracy stays high across both rural and semi-urban units: \texttt{ATAKUMOSA WEST} reaches $99.64\%$ \texttt{Exact Match (\%)} ($1,121 / 1,125$ cells) and $96.00\%$ \texttt{Flawless Sheets (\%)} ($72 / 75$ perfect sheets, with $94.67\%$ balanced under Section 64(4)), \texttt{AYEDAADE} reaches $98.87\%$ \texttt{Exact Match (\%)} ($1,483 / 1,500$ cells) and $88.00\%$ \texttt{Flawless Sheets (\%)} ($88 / 100$ sheets), and \texttt{ATAKUMOSA EAST} reaches $97.78\%$ \texttt{Exact Match (\%)} ($1,100 / 1,125$ cells) and $82.67\%$ \texttt{Flawless Sheets (\%)} ($62 / 75$ sheets).
+
+\subsection{Failure Mode Taxonomy, Section 64(4) Interception, and the Biro Party-Swap Discovery}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_party_and_error_taxonomy.png}
+\caption{Dual-panel analysis on the Osun-EC8A-250 benchmark (3,750 party cells across 250 sheets) showing (left) per-party Exact Match (\%) across all 15 political parties and (right) failure mode breakdown of the 46 misread cells with their 95.65\% (44/46) automatic detection rate under the Section 64(4) Collation Sum Gate.}
+\label{fig:party_and_error_taxonomy}
+\end{figure}
+
+To understand why a VLM still misses occasional cells on election sheets and how statutory math catches those misses, we manually inspected all $46$ misread cells out of $3,750$ total cells. Table~\ref{tab:error_taxonomy} and Figure~\ref{fig:party_and_error_taxonomy} group all $46$ errors into five failure modes and report how many are caught by the Tier 1 Section 64(4) Collation Sum Gate (Equation~\ref{eq:sec64}).
+
+\begin{table}[t]
+\caption{Failure mode taxonomy across all 46 misread party vote cells on Osun-EC8A-250 and automatic error interception rates achieved by the Electoral Act Section 64(4) Collation Sum Gate.}
+\label{tab:error_taxonomy}
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+Failure Mode Category & Total Errors $\downarrow$ & Share of Errors (\%) $\downarrow$ & Mean Absolute Vote Error $\downarrow$ & Intercepted by Sec64 Gate $\uparrow$ & Sec64 Detection Rate (\%) $\uparrow$ \\
+\midrule
+Sparse-Row Small-Digit Omission (1-4 read as 0) & 29 & 63.04 & 1.38 & 29 & 100.00 \\
+Grid-Line Leading-Digit Truncation (-100 drop) & 5 & 10.87 & 100.00 & 5 & 100.00 \\
+Stroke-Similarity Substitution (e.g. 2 vs 9, 0 vs 6) & 8 & 17.39 & 9.63 & 8 & 100.00 \\
+Full-Row Vote Dropout (191 or 71 read as 0) & 2 & 4.35 & 131.00 & 2 & 100.00 \\
+Hand-Altered Party Acronym Swap (Biro ADP/APC Overwrite) & 2 & 4.35 & 60.00 & 0 & 0.00 \\
+\midrule
+\textbf{Total All Errors} & \textbf{46} & \textbf{100.00} & \textbf{21.83} & \textbf{44} & \textbf{95.65} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Three findings stand out from Table~\ref{tab:error_taxonomy}:
+\begin{enumerate}
+    \item \textbf{Sparse-Row Zero-Prior Bias ($63.04\%$ of errors):} Exactly $29$ out of $46$ errors (averaging just $1.38$ votes off) happen when a minor party (\texttt{AA} with $13$ errors, \texttt{AAC} with $5$ errors, \texttt{ADC} with $4$ errors) gets $1$ to $4$ votes inside a column filled mostly with zeros or dashes, and the VLM defaults to $0$. This directly mirrors the Prior-Driven Error (PDE) behavior found on WildHandBench \cite{zhang2026wildhandbench}.
+    \item \textbf{Grid-Line Leading-Digit Truncation on 3-Digit Tallies ($10.87\%$ of errors):} On $5$ cells for major parties (\texttt{A} and \texttt{APC}), the Presiding Officer wrote a 3-digit score starting with \texttt{1} right on top of the left vertical border of the score box. The printed line swallowed the leading \texttt{1}, causing an exact $-100$ vote drop: $141 \to 41$ (PU \texttt{29/01/01/003}), $191 \to 91$ (PU \texttt{29/01/06/002}), $198 \to 98$ (PU \texttt{29/03/05/017}), $124 \to 24$ (PU \texttt{29/03/07/001}), and $113 \to 13$ (PU \texttt{29/03/08/001}).
+    \item \textbf{$95.65\%$ Automatic Detection via Section 64(4) and the Biro Party-Alteration Discovery:} Every single Sparse-Row Omission ($29/29$), Grid-Line Truncation ($5/5$), Stroke Substitution ($8/8$), and Full-Row Dropout ($2/2$) breaks the sum rule $\sum_p \hat{v}_{i,p} = \hat{V}_{\text{valid}, i}$ and gets caught immediately by the Section 64(4) Collation Sum Gate ($44/46 = 95.65\%$). The \emph{only} $2$ errors in the entire 250-sheet benchmark that slipped past Section 64(4) occurred on one sheet: Polling Unit \texttt{29/01/07/001} (\texttt{L.A. PRY. SCHOOL ONIGBOGI} in \texttt{ATAKUMOSA EAST}). When you visually inspect the original IReV photograph for \texttt{29/01/07/001}, you see why. On a normal Form EC8A, row 5 is printed as \texttt{ADP} and row 6 is printed as \texttt{APC}. On this sheet, somebody swapped the party names with a blue ballpoint pen (biro) so that \texttt{APC} appeared before \texttt{ADP}, overwriting \texttt{ADP} on row 5 into \texttt{APC} and \texttt{APC} on row 6 into \texttt{ADP}, then wrote \texttt{=60=} (\texttt{SIXTY}) on row 5 beside the \texttt{APC} polling agent's signature (\texttt{JULIUS ADEREMI}). Because \texttt{Qwen2.5-VL-7B-Instruct} assumed the normal party order instead of reading the altered letters, the scores got recorded inversely: $60$ votes shifted to \texttt{ADP} (ground truth $0$, AI $60$) and $0$ votes went to \texttt{APC} (ground truth $60$, AI $0$). Even with that major error, the column total still came out right ($\sum_p \hat{v}_{i,p} = 170 = \hat{V}_{\text{valid}, i}$), so everything looked normal to the Section 64(4) sum gate. Catching this kind of swap in future work means reading the actual party labels directly alongside the written words and polling agent signatures.
+\end{enumerate}
+
+\subsection{Ablation Study and Forensic Case Study: Clerical Slips vs. Over-Voting (Section 51(2))}
+
+\begin{table}[t]
+\caption{Ablation study of statutory audit gates across 250 polling units on Osun-EC8A-250, measuring over-voting classification, benign clerical slips rescued, and uncaught OCR error leakage.}
+\label{tab:ablation_gates}
+\centering
+\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Audit Pipeline Variant & Audited Sheets $\uparrow$ & Sec51 Flagged Count $\downarrow$ & Sec51 Flagged (\%) $\downarrow$ & Benign Clerical Slips Saved $\uparrow$ & Unresolved Over-VotingPct (\%) $\downarrow$ & Uncaught OCR Errors Leaked $\downarrow$ & Error Interception Rate (\%) $\uparrow$ \\
+\midrule
+Raw VLM Extraction Only (No Statutory Gates) & 250 & 0 & 0.00 & 0 & 0.00 & 46 & 0.00 \\
++ Literal Sec 51(2) Gate Only (Cast $>$ Accredited) & 250 & 58 & 23.20 & 0 & 23.20 & 46 & 0.00 \\
++ Sec 64(4) Collation Sum Gate Only & 250 & 0 & 0.00 & 0 & 0.00 & 2 & 95.65 \\
+\midrule
+\textbf{EC8A-Sentinel Full (Two-Tier Sec 51 + Sec 64 Reconciliation)} & \textbf{250} & \textbf{58} & \textbf{23.20} & \textbf{38} & \textbf{8.00} & \textbf{2} & \textbf{95.65} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.82\textwidth]{figures/fig_statutory_reconciliation.png}
+\caption{Local Government Area (LGA) statutory audit breakdown across ATAKUMOSA EAST (75 sheets), ATAKUMOSA WEST (75 sheets), AYEDAADE (100 sheets), and the full Osun-EC8A-250 corpus (250 sheets), showing how Two-Tier Section 51(2) reconciliation splits 58 raw over-voting flags (23.20\%) into 38 Class I Benign Clerical Slips saved (65.52\% of flags) and 20 Class II Unresolved Over-Voting Anomalies (8.00\% of sheets).}
+\label{fig:statutory_reconciliation}
+\end{figure}
+
+Table~\ref{tab:ablation_gates} and Figure~\ref{fig:statutory_reconciliation} show what happens step by step when the Two-Tier Statutory Reconciliation Engine is turned on. If an audit runs only a literal Section 51(2) check ($\hat{V}_{\text{cast}, i} > \hat{A}_{\text{BVAS}, i}$, Equation~\ref{eq:sec51_raw}), $58$ out of $250$ polling units ($23.20\%$ of the dataset: $17$ in \texttt{ATAKUMOSA EAST}, $14$ in \texttt{ATAKUMOSA WEST}, and $27$ in \texttt{AYEDAADE}) get flagged for cancellation over apparent over-voting. Turning on the Two-Tier Clerical-Slip Solver (Equations~\ref{eq:class1} and~\ref{eq:class2}) reveals that \textbf{38 out of those 58 flagged polling units ($65.52\%$ of all Section 51 flags)} are actually \textbf{Class I Benign Clerical Slips}. On all 38 sheets, the 15 candidate vote tallies add up to $\hat{V}_{\text{valid}, i}$ ($B_{64, i} = 1$), and the physical ballots counted out of the ballot box ($\tilde{V}_{\text{cast}, i} = \hat{V}_{\text{valid}, i} + \hat{V}_{\text{rejected}, i}$) stay at or below BVAS biometric accreditation ($\tilde{V}_{\text{cast}, i} \le \hat{A}_{\text{BVAS}, i}$). Only $20$ polling units ($8.00\%$ of the $250$ sheets) remain as \textbf{Class II Unresolved Over-Voting Anomalies} requiring closer tribunal review.
+
+\paragraph{Forensic Case Study (Polling Unit \texttt{29/01/01/002}, \texttt{UNITY PRY. SCHOOL, IWARA}):}
+Polling Unit \texttt{29/01/01/002} (\texttt{UNITY PRY. SCHOOL, IWARA} in \texttt{ATAKUMOSA EAST}) shows clearly why a blind single-box Section 51(2) check cannot be trusted on its own. Here, EC8A-Sentinel read all 15 parties with $100.00\%$ accuracy ($15/15$ exact matches). When you add up the candidate scores (\texttt{A}: $152$, \texttt{APC}: $82$, \texttt{ADC}: $8$, \texttt{AA}: $5$, \texttt{ZLP}: $2$, \texttt{APGA}: $1$, \texttt{APM}: $1$, \texttt{YPP}: $1$, and $0$ for the other $7$ parties), the total actually matches: $252$ valid votes, matching the recorded \texttt{Valid Votes} ($\hat{V}_{\text{valid}} = 252$, $B_{64} = 1$). On top of that, visual inspection shows $3$ rejected ballots ($\hat{V}_{\text{rejected}} = 3$). Adding the rejected ballots to the $252$ valid votes gives $255$, which matches the $\hat{A}_{\text{BVAS}} = 255$ voters who received BVAS accreditation ($255 \le 255$). Yet the Presiding Officer wrote $261$ in the ``Total Number of Used Ballot Papers'' header ($\hat{V}_{\text{cast}} = 261$), leaving observers wondering where the extra six sheets came from when voters may simply have spoiled and replaced wrong ballots or the officer made a subtraction mistake. A literal Section 51(2) check sees $261 > 255$ and flags all $252$ valid votes for cancellation. Instead, our Two-Tier Reconciliation marks \texttt{29/01/01/002} as a Class I Benign Clerical Slip, proving that those voters should still be counted.
+
+\section{Conclusion}
+
+\subsection{Summary of Findings and Citizen Impact}
+
+\textbf{EC8A-Sentinel} proves that an open-weight model can read INEC Form EC8A sheets at $\$0$ API cost, hitting $98.77\%$ exact cell accuracy and $88.80\%$ flawless sheets ($0.00\%$ refusals) on \textbf{Osun-EC8A-250}. Our Electoral Act Section 64(4) check caught $95.65\%$ ($44$ of $46$) of AI reading mistakes automatically, and our Two-Tier Section 51(2) solver proved $65.52\%$ ($38$ of $58$) of raw over-voting flags were just clerical slips. At zero API cost and an average processing time of $62.97$ seconds (roughly a minute per sheet) on a free Google Colab T4 GPU, this is the closest we have gotten to letting ordinary citizens verify election results themselves. It can also grow into several practical Election Day tools: people could snap a photo with their phone to capture results directly, or civic groups could run two different models on the same sheet and flag any mismatch for a human reviewer. Combining zero API cost with roughly one-minute speed per sheet makes large-scale public auditing realistic on Election Day.
+
+\subsection{Scope Boundaries and Future Directions}
+
+Two clear gaps remain in this work. First, while the Section 64(4) sum gate caught $100.00\%$ of digit omissions, grid-line cuts, stroke substitutions, and row dropouts ($44$ of $46$ errors), a numeric sum cannot catch a zero-sum party swap when someone alters the printed party labels in biro ink, like the $60$ votes shifted between \texttt{ADP} and \texttt{APC} on PU \texttt{29/01/07/001}. Right now, our pipeline assumes the party list stays in fixed row order. Next, we plan to read the actual party names directly instead of assuming fixed rows, read the handwritten votes in words (\texttt{Scores in Words}) alongside the digits and polling agent signatures, and check that all three match the totals at the bottom. Second, \textbf{Osun-EC8A-250} only tested IReV camera photos from Osun State, whereas parts of the 2023 presidential election saw heavily blurred uploads across other states \cite{veza2024inec}. When a sheet comes in blurry, instead of letting one model guess blindly, we can zoom into smaller crops of the vote box for a clearer view, or deploy two open-weight models at zero API cost and flag any disagreement for a human reviewer, keeping a human in the loop on Election Day across all 36 states.
+
+\clearpage
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use the Osun-EC8A-250 benchmark dataset or the EC8A-Sentinel visual-statutory reconciliation engine in your research, please cite it as below."
+title: "Auditing African Election Integrity at the Edge: A 250-Polling-Unit Forensic Vision AI Benchmark and Statutory Reconciliation Engine on Nigerian Form EC8A Result Sheets"
+type: software
+authors:
+  - family-names: "Owadokun"
+    given-names: "Oluwatobi Ezekiel"
+version: 1.0.0
+date-released: 2026-11-07
+license: MIT
+keywords:
+  - "Election Auditing"
+  - "Form EC8A"
+  - "INEC IReV"
+  - "Vision-Language Models"
+  - "Qwen2.5-VL"
+  - "Handwritten Table Recognition"
+  - "Nigeria Electoral Act 2022"

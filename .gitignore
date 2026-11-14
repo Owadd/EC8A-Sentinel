@@ -1,0 +1,29 @@
+# Secrets & environment
+.env
+.env.*
+check_keys.js
+upload_to_github.bat
+
+# Browser & OS temp files
+output/.edge-temp-profile/
+.DS_Store
+Thumbs.db
+
+# Intermediate scratch / third-party reference captures / early pilot scripts
+irevsentinel_index.html
+sentinel_client.js
+colab_downloaded.ipynb
+patch_notebook.js
+background_research.txt
+background_summary.md
+PROJECT_STATUS.md
+StealthRL_Paper_Paraphraser.ipynb
+workspace/final/paper_ai_baseline.tex
+sample_1.svg
+view_sheets.html
+real_sample_1.jpg
+ec8a_vision_benchmark.ipynb
+run_full_benchmark.js
+run_targeted_audit.js
+output/*.json
+output/*.csv

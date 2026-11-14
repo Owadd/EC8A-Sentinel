@@ -1,0 +1,397 @@
+{
+  "supported": [
+    {
+      "value": "98.77",
+      "claim": "On the 3,750 cells, we reached 98.77% cell accuracy ( 3,704 cells right), with 222 of 250 sheets completely error-free ( 88.80% ), 0.00% refusals, and 46 misread cells ( 1.23% )."
+    },
+    {
+      "value": "88.80",
+      "claim": "On the 3,750 cells, we reached 98.77% cell accuracy ( 3,704 cells right), with 222 of 250 sheets completely error-free ( 88.80% ), 0.00% refusals, and 46 misread cells ( 1.23% )."
+    },
+    {
+      "value": "0.00",
+      "claim": "On the 3,750 cells, we reached 98.77% cell accuracy ( 3,704 cells right), with 222 of 250 sheets completely error-free ( 88.80% ), 0.00% refusals, and 46 misread cells ( 1.23% )."
+    },
+    {
+      "value": "1.23",
+      "claim": "On the 3,750 cells, we reached 98.77% cell accuracy ( 3,704 cells right), with 222 of 250 sheets completely error-free ( 88.80% ), 0.00% refusals, and 46 misread cells ( 1.23% )."
+    },
+    {
+      "value": "95.65",
+      "claim": "Section 64(4) of Nigeria's Electoral Act 2022 makes sure the party scores match the valid total at the bottom, and that helped us catch 95.65% of AI mistakes ( 44 out of 46 ) without anyone checking answer keys."
+    },
+    {
+      "value": "65.52",
+      "claim": "Looking past header errors with our two-tier solver, we found that 38 of the 58 flagged polling units ( 65.52% ) were just clerical slip-ups where counted ballots stayed inside BVAS accreditation and should still count."
+    },
+    {
+      "value": "66.55",
+      "claim": "As a result, accuracy drops from 99.00% on clean lab numbers down to 66.55% on real election tally sheets [CITE] , and crashes between 37.98% and 61.28% under 3D camera tilt [CITE] ."
+    },
+    {
+      "value": "37.98",
+      "claim": "As a result, accuracy drops from 99.00% on clean lab numbers down to 66.55% on real election tally sheets [CITE] , and crashes between 37.98% and 61.28% under 3D camera tilt [CITE] ."
+    },
+    {
+      "value": "61.28",
+      "claim": "As a result, accuracy drops from 99.00% on clean lab numbers down to 66.55% on real election tally sheets [CITE] , and crashes between 37.98% and 61.28% under 3D camera tilt [CITE] ."
+    },
+    {
+      "value": "37.98",
+      "claim": "A 37.98% accuracy rate is unusable on Election Day [CITE] ."
+    },
+    {
+      "value": "98.77",
+      "claim": "Across 3,750 cells covering 60,625 human-verified votes, EC8A-Sentinel hit \\textbf{98.77%} \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), \\textbf{88.80%} \\texttt{Flawless Sheets (%)} ( 222 / 250 sheets), \\textbf{1.23%} \\texttt{Hallucination (%)} ( 46 errors), and \\textbf{0.00%} \\texttt{Refusal (%)}."
+    },
+    {
+      "value": "88.80",
+      "claim": "Across 3,750 cells covering 60,625 human-verified votes, EC8A-Sentinel hit \\textbf{98.77%} \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), \\textbf{88.80%} \\texttt{Flawless Sheets (%)} ( 222 / 250 sheets), \\textbf{1.23%} \\texttt{Hallucination (%)} ( 46 errors), and \\textbf{0.00%} \\texttt{Refusal (%)}."
+    },
+    {
+      "value": "1.23",
+      "claim": "Across 3,750 cells covering 60,625 human-verified votes, EC8A-Sentinel hit \\textbf{98.77%} \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), \\textbf{88.80%} \\texttt{Flawless Sheets (%)} ( 222 / 250 sheets), \\textbf{1.23%} \\texttt{Hallucination (%)} ( 46 errors), and \\textbf{0.00%} \\texttt{Refusal (%)}."
+    },
+    {
+      "value": "0.00",
+      "claim": "Across 3,750 cells covering 60,625 human-verified votes, EC8A-Sentinel hit \\textbf{98.77%} \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), \\textbf{88.80%} \\texttt{Flawless Sheets (%)} ( 222 / 250 sheets), \\textbf{1.23%} \\texttt{Hallucination (%)} ( 46 errors), and \\textbf{0.00%} \\texttt{Refusal (%)}."
+    },
+    {
+      "value": "95.65",
+      "claim": "Our Section 64(4) Collation Sum Gate caught \\textbf{95.65%} ( 44 / 46 ) of all VLM reading errors on its own."
+    },
+    {
+      "value": "65.52",
+      "claim": "Meanwhile, our Two-Tier Section 51(2) Solver proved that \\textbf{65.52%} ( 38 / 58 ) of polling units flagged for literal over-voting were honest Presiding Officer clerical slips whose counted ballots obeyed biometric accreditation."
+    },
+    {
+      "value": "98.77",
+      "claim": "\\item \\textbf{Zero-Cost 4-Bit Vision Extraction and Biro Tampering Discovery:} We show that 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} (\\texttt{NF4}) on a free T4 GPU reaches 98.77% field-level \\texttt{Exact Match (%)} and 99.92% zero-cell specificity on uncropped 3 to 4 MB photos, beating recent handwritten table benchmarks (\\texttt{WildHandBench} at 53.63% to 60.44% ) by over 38 percentage points while exposing how VLM row-position priors react when printed party names are rewritten in biro ink."
+    },
+    {
+      "value": "99.92",
+      "claim": "\\item \\textbf{Zero-Cost 4-Bit Vision Extraction and Biro Tampering Discovery:} We show that 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} (\\texttt{NF4}) on a free T4 GPU reaches 98.77% field-level \\texttt{Exact Match (%)} and 99.92% zero-cell specificity on uncropped 3 to 4 MB photos, beating recent handwritten table benchmarks (\\texttt{WildHandBench} at 53.63% to 60.44% ) by over 38 percentage points while exposing how VLM row-position priors react when printed party names are rewritten in biro ink."
+    },
+    {
+      "value": "53.63",
+      "claim": "\\item \\textbf{Zero-Cost 4-Bit Vision Extraction and Biro Tampering Discovery:} We show that 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} (\\texttt{NF4}) on a free T4 GPU reaches 98.77% field-level \\texttt{Exact Match (%)} and 99.92% zero-cell specificity on uncropped 3 to 4 MB photos, beating recent handwritten table benchmarks (\\texttt{WildHandBench} at 53.63% to 60.44% ) by over 38 percentage points while exposing how VLM row-position priors react when printed party names are rewritten in biro ink."
+    },
+    {
+      "value": "60.44",
+      "claim": "\\item \\textbf{Zero-Cost 4-Bit Vision Extraction and Biro Tampering Discovery:} We show that 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} (\\texttt{NF4}) on a free T4 GPU reaches 98.77% field-level \\texttt{Exact Match (%)} and 99.92% zero-cell specificity on uncropped 3 to 4 MB photos, beating recent handwritten table benchmarks (\\texttt{WildHandBench} at 53.63% to 60.44% ) by over 38 percentage points while exposing how VLM row-position priors react when printed party names are rewritten in biro ink."
+    },
+    {
+      "value": "95.65",
+      "claim": "\\item \\textbf{Two-Tier Statutory Reconciliation Engine:} We formulate a legal math solver grounded in Sections 51(2) and 64(4) of Nigeria's Electoral Act 2022 that traps 95.65% of AI reading errors without human labels and saves 65.52% of raw over-voting flags from wrongful cancellation."
+    },
+    {
+      "value": "65.52",
+      "claim": "\\item \\textbf{Two-Tier Statutory Reconciliation Engine:} We formulate a legal math solver grounded in Sections 51(2) and 64(4) of Nigeria's Electoral Act 2022 that traps 95.65% of AI reading errors without human labels and saves 65.52% of raw over-voting flags from wrongful cancellation."
+    },
+    {
+      "value": "66.55",
+      "claim": "Gondere et al.\\ [CITE] cropped 64,596 handwritten digits written by over 1,000 polling station workers on election tally sheets and watched an MNIST-trained classifier drop from 99.00% lab accuracy to 66.55% in the field ( 89.32% after retraining with a Variational Autoencoder and BiLSTM)."
+    },
+    {
+      "value": "89.32",
+      "claim": "Gondere et al.\\ [CITE] cropped 64,596 handwritten digits written by over 1,000 polling station workers on election tally sheets and watched an MNIST-trained classifier drop from 99.00% lab accuracy to 66.55% in the field ( 89.32% after retraining with a Variational Autoencoder and BiLSTM)."
+    },
+    {
+      "value": "85.00",
+      "claim": "Multi-domain VLM OCR benchmarks [CITE] and Koncile's 17-model test on 49 handwritten medical forms [CITE] tell the same story, with the best VLMs capping out at 85.00% field accuracy and making up wrong numbers in 6.00% of fields."
+    },
+    {
+      "value": "6.00",
+      "claim": "Multi-domain VLM OCR benchmarks [CITE] and Koncile's 17-model test on 49 handwritten medical forms [CITE] tell the same story, with the best VLMs capping out at 85.00% field accuracy and making up wrong numbers in 6.00% of fields."
+    },
+    {
+      "value": "60.44",
+      "claim": "More recently, Zhang et al.\\ [CITE] tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit 60.44% Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit 53.63% , and PaddleOCR-VL-1.6 hit 52.41% , with 63.28% to 90.80% of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE)."
+    },
+    {
+      "value": "53.63",
+      "claim": "More recently, Zhang et al.\\ [CITE] tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit 60.44% Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit 53.63% , and PaddleOCR-VL-1.6 hit 52.41% , with 63.28% to 90.80% of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE)."
+    },
+    {
+      "value": "52.41",
+      "claim": "More recently, Zhang et al.\\ [CITE] tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit 60.44% Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit 53.63% , and PaddleOCR-VL-1.6 hit 52.41% , with 63.28% to 90.80% of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE)."
+    },
+    {
+      "value": "95.65",
+      "claim": "Instead of trusting raw VLM decoding on its own, EC8A-Sentinel pairs 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} [CITE] with a hard statutory sum gate that catches 95.65% of omissions and truncations right away."
+    },
+    {
+      "value": "97.00",
+      "claim": "Cropping the vote table with a custom YOLOv5 detector ( 0.9 IoU) raised AWS Textract digit accuracy to 97.00% , yet in the remaining 3.00% error tail, reading a printed table line together with handwritten numbers pushed counts into absurd billion-vote strings (like \\texttt{677000001 002}), forcing human volunteers to step in to reach a 0.3% to 0.4% national margin [CITE] ."
+    },
+    {
+      "value": "3.00",
+      "claim": "Cropping the vote table with a custom YOLOv5 detector ( 0.9 IoU) raised AWS Textract digit accuracy to 97.00% , yet in the remaining 3.00% error tail, reading a printed table line together with handwritten numbers pushed counts into absurd billion-vote strings (like \\texttt{677000001 002}), forcing human volunteers to step in to reach a 0.3% to 0.4% national margin [CITE] ."
+    },
+    {
+      "value": "95.65",
+      "claim": "[t] \\centering \\includegraphics[width=\\textwidth]{figures/fig_framework_overview.png} \\caption{System architecture of the EC8A-Sentinel visual-statutory election audit pipeline, showing raw 3 to 4 MB INEC IReV Form EC8A camera photo input into 4-bit quantized Qwen2.5-VL-7B-Instruct with dynamic-resolution NaViT patching, followed by the Electoral Act Section 64(4) Collation Sum Gate (catching 95.65% of VLM reading errors) and the Two-Tier Section 51(2) Clerical-Slip Solver.}"
+    },
+    {
+      "value": "95.65",
+      "claim": "Equation acts as an automatic checksum that traps 95.65% (44 / 46) of all VLM party-cell errors without human labels."
+    },
+    {
+      "value": "100.00",
+      "claim": "Following standard document intelligence and election audit benchmarks [CITE] , we evaluate seven metrics: (1) \\texttt{Exact Match (%)} ( \\uparrow ), the share of the 3,750 handwritten party cells where the AI integer matches human ground truth; (2) \\texttt{Hallucination (%)} ( \\downarrow ), the share of cells where the AI outputs a wrong integer (\\texttt{Total Errors} / 3,750 ); (3) \\texttt{Refusal (%)} ( \\downarrow ), the share of cells where the model fails to return an integer; (4) \\texttt{Flawless Sheets (%)} ( \\uparrow ), the share of polling units with 15/15 ( 100.00% ) exact party matches; (5) \\texttt{Absolute Vote Error} ( \\downarrow ), the total vote difference \\sum_i |\\hat{v}_{i,p} - v_{i,p}| ; (6) \\texttt{Sec64 Balanced (%)} ( \\uparrow ), the share of sheets passing Equation ; and (7) \\texttt{Sec51 Flagged (%)} ( \\downarrow ), split into Class I Benign Clerical Slips (Equation ) and Class II Unresolved Over-Voting Anomalies (Equation )."
+    },
+    {
+      "value": "98.77",
+      "claim": "[t] \\centering \\includegraphics[width=0.82\\textwidth]{figures/fig_benchmark_comparison.png} \\caption{Grouped bar chart comparing handwritten field extraction accuracy (Exact Match %) and error rate (Hallucination %) of EC8A-Sentinel (Qwen2.5-VL-7B 4-bit on Osun-EC8A-250, reaching 98.77% exact match and 1.23% hallucination) against seven published lab, medical form, and wild handwritten table baselines.}"
+    },
+    {
+      "value": "1.23",
+      "claim": "[t] \\centering \\includegraphics[width=0.82\\textwidth]{figures/fig_benchmark_comparison.png} \\caption{Grouped bar chart comparing handwritten field extraction accuracy (Exact Match %) and error rate (Hallucination %) of EC8A-Sentinel (Qwen2.5-VL-7B 4-bit on Osun-EC8A-250, reaching 98.77% exact match and 1.23% hallucination) against seven published lab, medical form, and wild handwritten table baselines.}"
+    },
+    {
+      "value": "98.77",
+      "claim": "Across 3,750 handwritten party vote cells on 250 uncropped Form EC8A camera photos, 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} hits 98.77% \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), holding the error rate to 1.23% ( 46 misread cells) with a 0.00% refusal rate ( 0 refusals)."
+    },
+    {
+      "value": "1.23",
+      "claim": "Across 3,750 handwritten party vote cells on 250 uncropped Form EC8A camera photos, 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} hits 98.77% \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), holding the error rate to 1.23% ( 46 misread cells) with a 0.00% refusal rate ( 0 refusals)."
+    },
+    {
+      "value": "0.00",
+      "claim": "Across 3,750 handwritten party vote cells on 250 uncropped Form EC8A camera photos, 4-bit \\texttt{Qwen2.5-VL-7B-Instruct} hits 98.77% \\texttt{Exact Match (%)} ( 3,704 / 3,750 cells), holding the error rate to 1.23% ( 46 misread cells) with a 0.00% refusal rate ( 0 refusals)."
+    },
+    {
+      "value": "88.80",
+      "claim": "At the full-sheet level, 222 out of 250 polling units ( 88.80% \\texttt{Flawless Sheets (%)}) get all 15/15 political party scores right."
+    },
+    {
+      "value": "7.20",
+      "claim": "Another 18 sheets ( 7.20% ) have just 1 party error, 6 sheets ( 2.40% ) have 2 errors, and only 4 sheets ( 1.60% ) have 3 or more errors."
+    },
+    {
+      "value": "2.40",
+      "claim": "Another 18 sheets ( 7.20% ) have just 1 party error, 6 sheets ( 2.40% ) have 2 errors, and only 4 sheets ( 1.60% ) have 3 or more errors."
+    },
+    {
+      "value": "1.60",
+      "claim": "Another 18 sheets ( 7.20% ) have just 1 party error, 6 sheets ( 2.40% ) have 2 errors, and only 4 sheets ( 1.60% ) have 3 or more errors."
+    },
+    {
+      "value": "66.55",
+      "claim": "Compared to unadapted MNIST classifiers on election tally sheets ( 66.55% ) and retrained Variational Autoencoder BiLSTMs ( 89.32% ) [CITE] , EC8A-Sentinel improves digit accuracy by +32.22 and +9.45 percentage points without box cropping or task-specific fine-tuning."
+    },
+    {
+      "value": "89.32",
+      "claim": "Compared to unadapted MNIST classifiers on election tally sheets ( 66.55% ) and retrained Variational Autoencoder BiLSTMs ( 89.32% ) [CITE] , EC8A-Sentinel improves digit accuracy by +32.22 and +9.45 percentage points without box cropping or task-specific fine-tuning."
+    },
+    {
+      "value": "53.63",
+      "claim": "Against full-page handwritten table readers on WildHandBench ( 53.63% for Gemini 3.5 Flash, 60.44% for Gemini 3.1 Pro, and 52.41% for PaddleOCR-VL-1.6) [CITE] , anchoring \\texttt{Qwen2.5-VL-7B-Instruct} to the 15-party schema of Form EC8A yields a +38.33 to +46.36 percentage-point gain, and beats the 97.00% accuracy of YOLOv5 + AWS Textract on cropped Kenyan Form 34A sheets [CITE] by +1.77 percentage points."
+    },
+    {
+      "value": "60.44",
+      "claim": "Against full-page handwritten table readers on WildHandBench ( 53.63% for Gemini 3.5 Flash, 60.44% for Gemini 3.1 Pro, and 52.41% for PaddleOCR-VL-1.6) [CITE] , anchoring \\texttt{Qwen2.5-VL-7B-Instruct} to the 15-party schema of Form EC8A yields a +38.33 to +46.36 percentage-point gain, and beats the 97.00% accuracy of YOLOv5 + AWS Textract on cropped Kenyan Form 34A sheets [CITE] by +1.77 percentage points."
+    },
+    {
+      "value": "52.41",
+      "claim": "Against full-page handwritten table readers on WildHandBench ( 53.63% for Gemini 3.5 Flash, 60.44% for Gemini 3.1 Pro, and 52.41% for PaddleOCR-VL-1.6) [CITE] , anchoring \\texttt{Qwen2.5-VL-7B-Instruct} to the 15-party schema of Form EC8A yields a +38.33 to +46.36 percentage-point gain, and beats the 97.00% accuracy of YOLOv5 + AWS Textract on cropped Kenyan Form 34A sheets [CITE] by +1.77 percentage points."
+    },
+    {
+      "value": "97.00",
+      "claim": "Against full-page handwritten table readers on WildHandBench ( 53.63% for Gemini 3.5 Flash, 60.44% for Gemini 3.1 Pro, and 52.41% for PaddleOCR-VL-1.6) [CITE] , anchoring \\texttt{Qwen2.5-VL-7B-Instruct} to the 15-party schema of Form EC8A yields a +38.33 to +46.36 percentage-point gain, and beats the 97.00% accuracy of YOLOv5 + AWS Textract on cropped Kenyan Form 34A sheets [CITE] by +1.77 percentage points."
+    },
+    {
+      "value": "100.00",
+      "claim": "Five minor parties (\\texttt{APM}, \\texttt{APP}, \\texttt{BP}, \\texttt{NNPP}, and \\texttt{PRP}) hit 100.00% \\texttt{Exact Match (%)} ( 250/250 cells each, 0 errors), and four others (\\texttt{ZLP} at 99.60% , plus \\texttt{APGA}, \\texttt{SDP}, and \\texttt{YPP} at 99.20% ) have just 1 or 2 errors across all 250 sheets."
+    },
+    {
+      "value": "99.60",
+      "claim": "Five minor parties (\\texttt{APM}, \\texttt{APP}, \\texttt{BP}, \\texttt{NNPP}, and \\texttt{PRP}) hit 100.00% \\texttt{Exact Match (%)} ( 250/250 cells each, 0 errors), and four others (\\texttt{ZLP} at 99.60% , plus \\texttt{APGA}, \\texttt{SDP}, and \\texttt{YPP} at 99.20% ) have just 1 or 2 errors across all 250 sheets."
+    },
+    {
+      "value": "99.20",
+      "claim": "Five minor parties (\\texttt{APM}, \\texttt{APP}, \\texttt{BP}, \\texttt{NNPP}, and \\texttt{PRP}) hit 100.00% \\texttt{Exact Match (%)} ( 250/250 cells each, 0 errors), and four others (\\texttt{ZLP} at 99.60% , plus \\texttt{APGA}, \\texttt{SDP}, and \\texttt{YPP} at 99.20% ) have just 1 or 2 errors across all 250 sheets."
+    },
+    {
+      "value": "97.16",
+      "claim": "For the two leading parties that together account for 97.16% of all votes cast, \\texttt{APC} ( 30,965 ground-truth votes across 249 non-zero polling units) and Party \\texttt{A} ( 27,939 ground-truth votes across 248 non-zero polling units), EC8A-Sentinel reaches 98.00% ( 245/250 ) and 96.80% ( 242/250 ) exact match accuracy."
+    },
+    {
+      "value": "98.00",
+      "claim": "For the two leading parties that together account for 97.16% of all votes cast, \\texttt{APC} ( 30,965 ground-truth votes across 249 non-zero polling units) and Party \\texttt{A} ( 27,939 ground-truth votes across 248 non-zero polling units), EC8A-Sentinel reaches 98.00% ( 245/250 ) and 96.80% ( 242/250 ) exact match accuracy."
+    },
+    {
+      "value": "96.80",
+      "claim": "For the two leading parties that together account for 97.16% of all votes cast, \\texttt{APC} ( 30,965 ground-truth votes across 249 non-zero polling units) and Party \\texttt{A} ( 27,939 ground-truth votes across 248 non-zero polling units), EC8A-Sentinel reaches 98.00% ( 245/250 ) and 96.80% ( 242/250 ) exact match accuracy."
+    },
+    {
+      "value": "99.92",
+      "claim": "Across the 2,469 zero-vote cells where Presiding Officers wrote \\texttt{0}, \\texttt{00}, a dash \\texttt{-}, or left the row blank, the model outputs 0 in 2,467 cases ( 99.92% zero-cell specificity), hallucinating a non-zero number on only 2 zero-vote cells in the entire dataset (both on \\texttt{ADP})."
+    },
+    {
+      "value": "99.64",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "96.00",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "94.67",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "98.87",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "88.00",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "97.78",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "82.67",
+      "claim": "Accuracy stays high across both rural and semi-urban units: \\texttt{ATAKUMOSA WEST} reaches 99.64% \\texttt{Exact Match (%)} ( 1,121 / 1,125 cells) and 96.00% \\texttt{Flawless Sheets (%)} ( 72 / 75 perfect sheets, with 94.67% balanced under Section 64(4)), \\texttt{AYEDAADE} reaches 98.87% \\texttt{Exact Match (%)} ( 1,483 / 1,500 cells) and 88.00% \\texttt{Flawless Sheets (%)} ( 88 / 100 sheets), and \\texttt{ATAKUMOSA EAST} reaches 97.78% \\texttt{Exact Match (%)} ( 1,100 / 1,125 cells) and 82.67% \\texttt{Flawless Sheets (%)} ( 62 / 75 sheets)."
+    },
+    {
+      "value": "95.65",
+      "claim": "[t] \\centering \\includegraphics[width=\\textwidth]{figures/fig_party_and_error_taxonomy.png} \\caption{Dual-panel analysis on the Osun-EC8A-250 benchmark (3,750 party cells across 250 sheets) showing (left) per-party Exact Match (%) across all 15 political parties and (right) failure mode breakdown of the 46 misread cells with their 95.65% (44/46) automatic detection rate under the Section 64(4) Collation Sum Gate.}"
+    },
+    {
+      "value": "63.04",
+      "claim": "Three findings stand out from Table : \\item \\textbf{Sparse-Row Zero-Prior Bias ( 63.04% of errors):} Exactly 29 out of 46 errors (averaging just 1.38 votes off) happen when a minor party (\\texttt{AA} with 13 errors, \\texttt{AAC} with 5 errors, \\texttt{ADC} with 4 errors) gets 1 to 4 votes inside a column filled mostly with zeros or dashes, and the VLM defaults to 0 ."
+    },
+    {
+      "value": "10.87",
+      "claim": "\\item \\textbf{Grid-Line Leading-Digit Truncation on 3-Digit Tallies ( 10.87% of errors):} On 5 cells for major parties (\\texttt{A} and \\texttt{APC}), the Presiding Officer wrote a 3-digit score starting with \\texttt{1} right on top of the left vertical border of the score box."
+    },
+    {
+      "value": "95.65",
+      "claim": "\\item \\textbf{ 95.65% Automatic Detection via Section 64(4) and the Biro Party-Alteration Discovery:} Every single Sparse-Row Omission ( 29/29 ), Grid-Line Truncation ( 5/5 ), Stroke Substitution ( 8/8 ), and Full-Row Dropout ( 2/2 ) breaks the sum rule \\sum_p \\hat{v}_{i,p} = \\hat{V}_{\\text{valid}, i} and gets caught immediately by the Section 64(4) Collation Sum Gate ( 44/46 = 95.65% )."
+    },
+    {
+      "value": "23.20",
+      "claim": "[t] \\centering \\includegraphics[width=0.82\\textwidth]{figures/fig_statutory_reconciliation.png} \\caption{Local Government Area (LGA) statutory audit breakdown across ATAKUMOSA EAST (75 sheets), ATAKUMOSA WEST (75 sheets), AYEDAADE (100 sheets), and the full Osun-EC8A-250 corpus (250 sheets), showing how Two-Tier Section 51(2) reconciliation splits 58 raw over-voting flags (23.20%) into 38 Class I Benign Clerical Slips saved (65.52% of flags) and 20 Class II Unresolved Over-Voting Anomalies (8.00% of sheets).}"
+    },
+    {
+      "value": "65.52",
+      "claim": "[t] \\centering \\includegraphics[width=0.82\\textwidth]{figures/fig_statutory_reconciliation.png} \\caption{Local Government Area (LGA) statutory audit breakdown across ATAKUMOSA EAST (75 sheets), ATAKUMOSA WEST (75 sheets), AYEDAADE (100 sheets), and the full Osun-EC8A-250 corpus (250 sheets), showing how Two-Tier Section 51(2) reconciliation splits 58 raw over-voting flags (23.20%) into 38 Class I Benign Clerical Slips saved (65.52% of flags) and 20 Class II Unresolved Over-Voting Anomalies (8.00% of sheets).}"
+    },
+    {
+      "value": "8.00",
+      "claim": "[t] \\centering \\includegraphics[width=0.82\\textwidth]{figures/fig_statutory_reconciliation.png} \\caption{Local Government Area (LGA) statutory audit breakdown across ATAKUMOSA EAST (75 sheets), ATAKUMOSA WEST (75 sheets), AYEDAADE (100 sheets), and the full Osun-EC8A-250 corpus (250 sheets), showing how Two-Tier Section 51(2) reconciliation splits 58 raw over-voting flags (23.20%) into 38 Class I Benign Clerical Slips saved (65.52% of flags) and 20 Class II Unresolved Over-Voting Anomalies (8.00% of sheets).}"
+    },
+    {
+      "value": "23.20",
+      "claim": "If an audit runs only a literal Section 51(2) check ( \\hat{V}_{\\text{cast}, i} > \\hat{A}_{\\text{BVAS}, i} , Equation ), 58 out of 250 polling units ( 23.20% of the dataset: 17 in \\texttt{ATAKUMOSA EAST}, 14 in \\texttt{ATAKUMOSA WEST}, and 27 in \\texttt{AYEDAADE}) get flagged for cancellation over apparent over-voting."
+    },
+    {
+      "value": "65.52",
+      "claim": "Turning on the Two-Tier Clerical-Slip Solver (Equations and ) reveals that \\textbf{38 out of those 58 flagged polling units ( 65.52% of all Section 51 flags)} are actually \\textbf{Class I Benign Clerical Slips}."
+    },
+    {
+      "value": "8.00",
+      "claim": "Only 20 polling units ( 8.00% of the 250 sheets) remain as \\textbf{Class II Unresolved Over-Voting Anomalies} requiring closer tribunal review."
+    },
+    {
+      "value": "100.00",
+      "claim": "Here, EC8A-Sentinel read all 15 parties with 100.00% accuracy ( 15/15 exact matches)."
+    },
+    {
+      "value": "98.77",
+      "claim": "\\textbf{EC8A-Sentinel} proves that an open-weight model can read INEC Form EC8A sheets at \\ 0 API cost, hitting 98.77% exact cell accuracy and 88.80% flawless sheets ( 0.00% refusals) on \\textbf{Osun-EC8A-250}."
+    },
+    {
+      "value": "88.80",
+      "claim": "\\textbf{EC8A-Sentinel} proves that an open-weight model can read INEC Form EC8A sheets at \\ 0 API cost, hitting 98.77% exact cell accuracy and 88.80% flawless sheets ( 0.00% refusals) on \\textbf{Osun-EC8A-250}."
+    },
+    {
+      "value": "0.00",
+      "claim": "\\textbf{EC8A-Sentinel} proves that an open-weight model can read INEC Form EC8A sheets at \\ 0 API cost, hitting 98.77% exact cell accuracy and 88.80% flawless sheets ( 0.00% refusals) on \\textbf{Osun-EC8A-250}."
+    },
+    {
+      "value": "95.65",
+      "claim": "Our Electoral Act Section 64(4) check caught 95.65% ( 44 of 46 ) of AI reading mistakes automatically, and our Two-Tier Section 51(2) solver proved 65.52% ( 38 of 58 ) of raw over-voting flags were just clerical slips."
+    },
+    {
+      "value": "65.52",
+      "claim": "Our Electoral Act Section 64(4) check caught 95.65% ( 44 of 46 ) of AI reading mistakes automatically, and our Two-Tier Section 51(2) solver proved 65.52% ( 38 of 58 ) of raw over-voting flags were just clerical slips."
+    },
+    {
+      "value": "100.00",
+      "claim": "First, while the Section 64(4) sum gate caught 100.00% of digit omissions, grid-line cuts, stroke substitutions, and row dropouts ( 44 of 46 errors), a numeric sum cannot catch a zero-sum party swap when someone alters the printed party labels in biro ink, like the 60 votes shifted between \\texttt{ADP} and \\texttt{APC} on PU \\texttt{29/01/07/001}."
+    }
+  ],
+  "unsupported": [],
+  "uncertain": [
+    {
+      "value": "99.00",
+      "claim": "As a result, accuracy drops from 99.00% on clean lab numbers down to 66.55% on real election tally sheets [CITE] , and crashes between 37.98% and 61.28% under 3D camera tilt [CITE] ."
+    },
+    {
+      "value": "63.28",
+      "claim": "Modern Vision-Language Models (VLMs) [CITE] skip brittle box croppers, yet because they are generative models, faint ballpoint ink makes them try to compensate from memory and hallucinate numbers instead of leaving cells blank ( 63.28% to 90.80% of handwritten table errors [CITE] )."
+    },
+    {
+      "value": "90.80",
+      "claim": "Modern Vision-Language Models (VLMs) [CITE] skip brittle box croppers, yet because they are generative models, faint ballpoint ink makes them try to compensate from memory and hallucinate numbers instead of leaving cells blank ( 63.28% to 90.80% of handwritten table errors [CITE] )."
+    },
+    {
+      "value": "98.70",
+      "claim": "Classic convolutional nets on centered MNIST digits score 98.70% to 99.87% [CITE] , while transformer OCR models like TrOCR [CITE] and top VLMs reach 1.75% to 2.89% Character Error Rate (CER) on cropped lines of the IAM Handwriting Database [CITE] ."
+    },
+    {
+      "value": "99.87",
+      "claim": "Classic convolutional nets on centered MNIST digits score 98.70% to 99.87% [CITE] , while transformer OCR models like TrOCR [CITE] and top VLMs reach 1.75% to 2.89% Character Error Rate (CER) on cropped lines of the IAM Handwriting Database [CITE] ."
+    },
+    {
+      "value": "1.75",
+      "claim": "Classic convolutional nets on centered MNIST digits score 98.70% to 99.87% [CITE] , while transformer OCR models like TrOCR [CITE] and top VLMs reach 1.75% to 2.89% Character Error Rate (CER) on cropped lines of the IAM Handwriting Database [CITE] ."
+    },
+    {
+      "value": "2.89",
+      "claim": "Classic convolutional nets on centered MNIST digits score 98.70% to 99.87% [CITE] , while transformer OCR models like TrOCR [CITE] and top VLMs reach 1.75% to 2.89% Character Error Rate (CER) on cropped lines of the IAM Handwriting Database [CITE] ."
+    },
+    {
+      "value": "99.00",
+      "claim": "Gondere et al.\\ [CITE] cropped 64,596 handwritten digits written by over 1,000 polling station workers on election tally sheets and watched an MNIST-trained classifier drop from 99.00% lab accuracy to 66.55% in the field ( 89.32% after retraining with a Variational Autoencoder and BiLSTM)."
+    },
+    {
+      "value": "63.28",
+      "claim": "More recently, Zhang et al.\\ [CITE] tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit 60.44% Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit 53.63% , and PaddleOCR-VL-1.6 hit 52.41% , with 63.28% to 90.80% of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE)."
+    },
+    {
+      "value": "90.80",
+      "claim": "More recently, Zhang et al.\\ [CITE] tested 500 degraded handwritten pages in WildHandBench and found that tables are the hardest layout of all: Gemini 3.1 Pro hit 60.44% Table Tree Edit Distance Similarity (TEDS), Gemini 3.5 Flash hit 53.63% , and PaddleOCR-VL-1.6 hit 52.41% , with 63.28% to 90.80% of errors driven by language priors overriding faint ink (Prior-Driven Error, PDE)."
+    },
+    {
+      "value": "14.23",
+      "claim": "Pratama and Hidayat [CITE] similarly showed that overhead phone shadows and dim light push Character Error Rate from 14.23% to 22.71% on mobile document captures."
+    },
+    {
+      "value": "22.71",
+      "claim": "Pratama and Hidayat [CITE] similarly showed that overhead phone shadows and dim light push Character Error Rate from 14.23% to 22.71% on mobile document captures."
+    },
+    {
+      "value": "0.3",
+      "claim": "Cropping the vote table with a custom YOLOv5 detector ( 0.9 IoU) raised AWS Textract digit accuracy to 97.00% , yet in the remaining 3.00% error tail, reading a printed table line together with handwritten numbers pushed counts into absurd billion-vote strings (like \\texttt{677000001 002}), forcing human volunteers to step in to reach a 0.3% to 0.4% national margin [CITE] ."
+    },
+    {
+      "value": "0.4",
+      "claim": "Cropping the vote table with a custom YOLOv5 detector ( 0.9 IoU) raised AWS Textract digit accuracy to 97.00% , yet in the remaining 3.00% error tail, reading a printed table line together with handwritten numbers pushed counts into absurd billion-vote strings (like \\texttt{677000001 002}), forcing human volunteers to step in to reach a 0.3% to 0.4% national margin [CITE] ."
+    },
+    {
+      "value": "97.7",
+      "claim": "Meanwhile in Nigeria, after a Veza News forensic investigation [CITE] exposed 77% blurry Form EC8A uploads in Gombe State and manual biro alterations in Rivers State during the 2023 election, civic-tech teams explored dual-model consensus (Mundx Analytics covering 97.7% of Osun IReV uploads [CITE] ) and paid Gemini 2.5 Flash extraction with Electoral Act checks (IReV-Sentinel Pro 2.0 [CITE] )."
+    }
+  ],
+  "summary": {
+    "total": 96,
+    "supported": 81,
+    "unsupported": 0,
+    "uncertain": 15
+  }
+}

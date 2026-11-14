@@ -1,0 +1,209 @@
+{
+  "plotting_plan": [
+    {
+      "figure_id": "fig_framework_overview",
+      "title": "EC8A-Sentinel Architecture and Two-Tier Statutory Verification Pipeline",
+      "plot_type": "diagram",
+      "data_source": "idea.md",
+      "objective": "Conceptual system architecture diagram illustrating the three-stage EC8A-Sentinel pipeline: (1) Raw 3-4 MB INEC IReV Form EC8A smartphone photograph ingestion into 4-bit NF4 Qwen2.5-VL-7B-Instruct with dynamic-resolution NaViT tokenization; (2) Electoral Act Section 64(4) Collation Sum Invariant Gate intercepting 95.65% of VLM transcription errors; and (3) Two-Tier Section 51(2) Clerical-Slip Disentanglement Solver separating Class I Benign Clerical Slips from Class II Unresolved Over-Voting Anomalies.",
+      "aspect_ratio": "16:9"
+    },
+    {
+      "figure_id": "fig_benchmark_comparison",
+      "title": "Handwritten Form Extraction Accuracy vs. Published Baselines",
+      "plot_type": "plot",
+      "data_source": "experimental_log.md",
+      "objective": "Grouped bar chart comparing Exact Match (%) and Hallucination (%) of EC8A-Sentinel (Qwen2.5-VL-7B 4-bit on Osun-EC8A-250, 98.77% exact match, 1.23% hallucination) against published handwritten form and table benchmarks including MNIST-ICR Unadapted (66.55%), MNIST+CVL Retrained BiLSTM (89.32%), Koncile Best VLM (85.00%), WildHandBench Gemini 3.5 Flash (53.63%), WildHandBench Gemini 3.1 Pro (60.44%), WildHandBench PaddleOCR-VL-1.6 (52.41%), and YOLOv5 + AWS Textract on Kenya Form 34A (97.00%).",
+      "aspect_ratio": "5:4"
+    },
+    {
+      "figure_id": "fig_party_and_error_taxonomy",
+      "title": "Per-Party Extraction Accuracy and Failure Mode Interception Taxonomy",
+      "plot_type": "plot",
+      "data_source": "experimental_log.md",
+      "objective": "Two-panel horizontal bar chart displaying (Left) Exact Match (%) across all 15 political parties on Osun-EC8A-250 (3,750 cells total, highlighting 100.00% on APM, APP, BP, NNPP, PRP and 98.00%/96.80% on major parties APC and A) and (Right) the distribution of the 46 total VLM errors across 5 failure mode categories along with their 95.65% (44/46) automatic interception rate by the Section 64(4) Collation Sum Gate.",
+      "aspect_ratio": "16:9"
+    },
+    {
+      "figure_id": "fig_statutory_reconciliation",
+      "title": "LGA-Level Statutory Audit and Section 51(2) Clerical-Slip Disentanglement",
+      "plot_type": "plot",
+      "data_source": "experimental_log.md",
+      "objective": "Stacked bar chart across ATAKUMOSA EAST (75 sheets), ATAKUMOSA WEST (75 sheets), AYEDAADE (100 sheets), and Osun-EC8A-250 Total (250 sheets) comparing Flawless Sheets (%), Sec64 Balanced (%), and decomposing the 58 raw Section 51(2) over-voting flags (23.20%) into 38 Class I Benign Clerical Slips saved (65.52% of flags) versus 20 Class II Unresolved Over-Voting Anomalies (8.00% of total sheets).",
+      "aspect_ratio": "4:3"
+    }
+  ],
+  "intro_related_work_plan": {
+    "introduction_strategy": {
+      "hook_hypothesis": "Paper-based polling unit result sheets photographed under field conditions—such as Nigeria's INEC Form EC8A uploaded to the IReV portal and Kenya's IEBC Form 34A—serve as the primary primary-source evidence in African democracies, yet auditing hundreds of thousands of handwritten camera images remains bottlenecked by human fatigue, optical distortion, and statutory ambiguity.",
+      "problem_gap_hypothesis": "Traditional OCR pipelines collapse on uncropped, skewed, or folded tally sheets due to rigid bounding-box assumptions, while frontier proprietary VLMs suffer from prior-driven hallucinations on faint handwriting and prohibitive API costs. Simultaneously, naive statutory verification under Section 51(2) of Nigeria's Electoral Act 2022 treats Presiding Officer subtraction errors in the 'Total Votes Cast' box identically to fraudulent over-voting, risking the invalidation of legitimate votes.",
+      "search_directions": [
+        "Handwritten digit and table recognition benchmarks for Vision-Language Models (WildHandBench, OmniDocBench, OCRBench v2)",
+        "Physical camera capture degradations in document parsing (Real5-OmniDocBench, smartphone shadow and blur robustness)",
+        "Automated OCR and computer vision on electoral tally sheets (Election Tally Sheets Processing System, Kenya Form 34A YOLOv5, Nigerian Form EC8A IReV audits)",
+        "Open-weight dynamic-resolution Vision-Language Models and 4-bit quantization (Qwen2.5-VL, QLoRA / NF4 quantization)"
+      ]
+    },
+    "related_work_strategy": {
+      "overview": "We organize prior work into three technical themes: (1) Handwritten Form and Table Recognition with Vision-Language Models, (2) Physical Camera Degradations and Layout Parsing under Field Conditions, and (3) Computational Election Auditing and African Paper-Form Digitization.",
+      "subsections": [
+        {
+          "subsection_title": "Handwritten Form and Table Recognition with Vision-Language Models",
+          "methodology_cluster": "Isolated handwritten digit/line OCR (MNIST, IAM, TrOCR) versus structured multi-column handwritten table extraction with Multimodal Large Language Models (WildHandBench, OmniDocBench, Qwen2.5-VL).",
+          "sota_investigation_mission": "Analyze the performance drop from isolated digit classification (99% on MNIST) to electoral tally boxes (66.55%-89.32%) and degraded handwritten tables (52.27%-60.44% Table TEDS on WildHandBench), focusing on autoregressive Prior-Driven Errors (PDE).",
+          "limitation_hypothesis": "General-purpose VLMs rely heavily on language decoder priors when visual ink strokes are faint or ambiguous, causing 63%-91% of table errors to manifest as plausible hallucinations rather than honest refusals.",
+          "limitation_search_queries": [
+            "WildHandBench handwritten text table understanding MLLM prior-driven error",
+            "Election Tally Sheets Processing System handwritten digit recognition IAPR DAS",
+            "Qwen2.5-VL dynamic resolution document parsing OCRBench v2"
+          ],
+          "bridge_to_our_method": "Whereas prior benchmarks evaluate unconstrained table transcription without domain invariants, EC8A-Sentinel pairs 4-bit Qwen2.5-VL-7B with deterministic Electoral Act Section 64(4) summation checks to intercept 95.65% of prior-driven omissions and truncations automatically."
+        },
+        {
+          "subsection_title": "Physical Camera Degradations and Layout Parsing in the Wild",
+          "methodology_cluster": "Robustness of OCR pipelines and VLMs under real-world mobile capture distortions including illumination shadows, page warping/folds, 3D perspective skew, and optical defocus (Real5-OmniDocBench, ICIE mobile capture, ClearText-Video).",
+          "sota_investigation_mission": "Compare multi-stage OCR pipelines (PP-StructureV3, Marker, DeepSeek-OCR 2) against native resolution VLMs on physically warped and skewed smartphone captures.",
+          "limitation_hypothesis": "Rigid bounding-box and horizontal line-sorting heuristics in traditional OCR pipelines suffer 25 to 55 point accuracy collapses under camera skew and page folds, causing adjacent candidate rows to merge or transpose.",
+          "limitation_search_queries": [
+            "Real5-OmniDocBench physical reconstruction benchmark document parsing skew warping",
+            "Shadow removal CLAHE contrast enhancement smartphone document OCR",
+            "ClearText-Video optical blur vs resolution VLM OCR degradation"
+          ],
+          "bridge_to_our_method": "By leveraging Qwen2.5-VL's native dynamic-resolution NaViT visual encoder directly on full-page 3-4 MB IReV photographs, EC8A-Sentinel eliminates brittle fiducial cropping while isolating the exact residual failure mode of 1-row vertical transposition."
+        },
+        {
+          "subsection_title": "Computational Election Auditing and African Paper-Form Digitization",
+          "methodology_cluster": "Field deployments of computer vision and statutory verification on Sub-Saharan African electoral and clinical forms (Nigeria INEC Form EC8A on IReV, Kenya IEBC Form 34A, QED.ai ScanForm in Malawi).",
+          "sota_investigation_mission": "Examine engineering architectures deployed on African tally sheets, including YOLOv5 + AWS Textract on Kenya Form 34A, Mundx dual-model consensus, IReV-Sentinel Pro 2.0, and ScanForm human-in-the-loop registers.",
+          "limitation_hypothesis": "Existing election OCR deployments either require paid cloud APIs that fail on a 3% tail with billion-vote concatenation errors or apply literal single-field over-voting checks that conflate Presiding Officer clerical subtraction slips with ballot stuffing.",
+          "limitation_search_queries": [
+            "Kenya 2022 Form 34A YOLOv5 AWS Textract election verification",
+            "Nigeria INEC IReV Form EC8A blurred uploads Electoral Act 2022 Section 51 Section 64",
+            "Digitising HIV Testing Registers Malawi ScanForm QED.ai handwritten OCR"
+          ],
+          "bridge_to_our_method": "EC8A-Sentinel introduces the first open-weight, zero-API-cost 250-sheet benchmark on authentic Nigerian Form EC8A photos and formulates a Two-Tier Section 51(2) solver that rescues 65.52% of flagged polling units from wrongful clerical invalidation."
+        }
+      ]
+    }
+  },
+  "section_plan": [
+    {
+      "section_title": "Methodology",
+      "subsections": [
+        {
+          "subsection_title": "Problem Formulation and the Osun-EC8A-250 Dataset Architecture",
+          "content_bullets": [
+            "Formalize the physical structure of Nigerian INEC Form EC8A as a tuple of administrative accreditation headers (Part A: BVAS Accredited Voters, Ballot Accounting) and a 15-row tabular candidate score matrix (Part B: Party Acronym, Figures, Words).",
+            "Detail the Osun-EC8A-250 corpus across ATAKUMOSA EAST (75 PUs), ATAKUMOSA WEST (75 PUs), and AYEDAADE (100 PUs), comprising 250 high-resolution (3-4 MB) camera photographs streamed from the INEC IReV portal archive and 3,750 human-verified party vote cells totaling 60,625 ground-truth party votes.",
+            "Define the joint visual-statutory extraction objective mapping raw image I to structured JSON outputs for all 15 political parties (A, AA, AAC, ADC, ADP, APC, APGA, APM, APP, BP, NNPP, PRP, SDP, YPP, ZLP) and 4 administrative totals."
+          ],
+          "citation_hints": [
+            "Bail et al. or Bai et al. (Qwen2.5-VL Technical Report)",
+            "Zhang et al. (WildHandBench: A Benchmark for Handwritten Text Understanding that Challenges MLLMs and Humans)"
+          ]
+        },
+        {
+          "subsection_title": "4-Bit Quantized Dynamic-Resolution Vision Extraction (Qwen2.5-VL-7B-NF4)",
+          "content_bullets": [
+            "Describe the deployment of Qwen2.5-VL-7B-Instruct (7.6B parameters) using 4-bit NormalFloat (NF4) quantization with bfloat16/float16 compute dtype via BitsAndBytesConfig to fit comfortably within a single 16 GB NVIDIA T4 GPU at $0 API cost.",
+            "Explain why native dynamic-resolution Vision Transformer (NaViT) tokenization preserves fine-grained ballpoint pen strokes and horizontal grid lines across full-page 3-4 MB Form EC8A images without requiring fragile pre-cropping.",
+            "Specify the deterministic zero-shot JSON schema prompt and greedy decoding configuration (do_sample=False, max_new_tokens=512) used to eliminate sampling variance."
+          ],
+          "citation_hints": [
+            "Dettmers et al. (QLoRA: Efficient Finetuning of Quantized LLMs)",
+            "Bai et al. (Qwen2.5-VL Technical Report)",
+            "Dehghani et al. (Patch n' Pack: NaViT, a Vision Transformer for any Aspect Ratio and Resolution)"
+          ]
+        },
+        {
+          "subsection_title": "Two-Tier Statutory Mathematical Reconciliation Engine (Electoral Act Sections 51 and 64)",
+          "content_bullets": [
+            "Formulate the Section 64(4) Collation Sum Invariant B_64 = I(sum_{p=1}^{15} v_p == V_valid) as an unsupervised, zero-label error detector that flags VLM omissions, truncations, and ink alterations.",
+            "Formulate the literal Section 51(2) Over-Voting Indicator F_51^raw = I(V_cast > A_BVAS) and explain the real-world cognitive failure mode where Presiding Officers miscalculate 'Total Ballot Papers Used' via booklet serial-number subtraction.",
+            "Derive the Two-Tier Clerical-Slip Disentanglement Solver using Reconciled Ballots Cast (V_tilde_cast = V_valid + V_rejected) to partition flagged polling units into Class I Benign Clerical Slips (B_64 = 1 and V_tilde_cast <= A_BVAS) versus Class II Unresolved Over-Voting Anomalies."
+          ],
+          "citation_hints": [
+            "Federal Republic of Nigeria (Electoral Act 2022, Sections 51(2) and 64(4))",
+            "Tweya et al. (Digitising HIV Testing Registers to Support National Scale-Up of Three-Test HIV Diagnostic Algorithm: A Case Study of an AI-Powered Monitoring and Evaluation System in Malawi)"
+          ]
+        }
+      ]
+    },
+    {
+      "section_title": "Experiments",
+      "subsections": [
+        {
+          "subsection_title": "Experimental Setup, Baselines, and Evaluation Protocol",
+          "content_bullets": [
+            "Summarize the hardware execution environment (single Google Colab NVIDIA T4 GPU, 62.97s average inference time per sheet) and evaluation metrics: Exact Match (%), Hallucination (%), Refusal (%), Flawless Sheets (%), Absolute Vote Error, Sec64 Balanced (%), and Sec51 Flagged (%).",
+            "Compare EC8A-Sentinel against seven published handwritten form and table baselines from Table 1: MNIST-ICR Unadapted (66.55%), MNIST+CVL Retrained BiLSTM (89.32%), Koncile Best VLM (85.00%), WildHandBench Gemini 3.5 Flash (53.63%), WildHandBench Gemini 3.1 Pro (60.44%), WildHandBench PaddleOCR-VL-1.6 (52.41%), and Kenya Form 34A YOLOv5 + AWS Textract (97.00%)."
+          ],
+          "citation_hints": [
+            "Gondere et al. or IAPR DAS (Election Tally Sheets Processing System)",
+            "Zhang et al. (WildHandBench: A Benchmark for Handwritten Text Understanding that Challenges MLLMs and Humans)",
+            "Zhou et al. (Real5-OmniDocBench: A Full-Scale Physical Reconstruction Benchmark for Robust Document Parsing in the Wild)"
+          ]
+        },
+        {
+          "subsection_title": "Main Extraction Results: Per-Party and LGA-Level Performance",
+          "content_bullets": [
+            "Report the headline empirical result from Table 1 and Table 2: 98.77% Exact Match (3,704 / 3,750 cells), 1.23% Hallucination Rate (46 errors), 0.00% Refusal Rate, and 88.80% Flawless Sheets (222 / 250 sheets with 15/15 exact matches).",
+            "Analyze the per-party breakdown in Table 2 across all 15 parties: 100.00% accuracy on APM, APP, BP, NNPP, and PRP; 98.00% on APC (30,640 AI vs 30,965 GT votes) and 96.80% on Party A (27,498 AI vs 27,939 GT votes); and 99.92% specificity across the 2,469 zero-vote cells (2,467 / 2,469 correct).",
+            "Examine spatial generalization across the three Local Government Areas in Table 3: ATAKUMOSA EAST (97.78% exact match, 82.67% flawless sheets), ATAKUMOSA WEST (99.64% exact match, 96.00% flawless sheets), and AYEDAADE (98.87% exact match, 88.00% flawless sheets)."
+          ],
+          "citation_hints": [
+            "Ouyang et al. (OmniDocBench: Benchmarking Diverse PDF Document Parsing with Comprehensive Annotations)",
+            "Fu et al. (OCRBench v2: An Improved Benchmark for Evaluating Large Multimodal Models on Visual Text Localization and Reasoning)"
+          ]
+        },
+        {
+          "subsection_title": "Failure Mode Taxonomy and Self-Verifying Error Interception via Section 64(4)",
+          "content_bullets": [
+            "Decompose all 46 misread cells using Table 4 into five mechanical failure modes: Sparse-Row Small-Digit Omission (29 errors, 63.04%, mean error 1.38 votes), Grid-Line Leading-Digit Truncation (5 errors, 10.87%, exact -100 vote drop on 141->41, 191->91, 198->98, 124->24, 113->13), Stroke-Similarity Substitution (8 errors, 17.39%), Full-Row Vote Dropout (2 errors, 4.35%), and Adjacent-Row Vertical Transposition (2 errors, 4.35%).",
+            "Demonstrate that the Electoral Act Section 64(4) Collation Sum Gate automatically intercepts 44 out of 46 errors (95.65% detection rate) without ground-truth labels.",
+            "Analyze the single sheet that bypassed Section 64(4): Polling Unit 29/01/07/001 (L.A. PRY. SCHOOL ONIGBOGI), where 60 votes for APC were transposed one row up to ADP (+60 / -60), preserving the column sum (60 + 0 = 0 + 60) and motivating figure-vs-word cross-checking."
+          ],
+          "citation_hints": [
+            "Zhang et al. (WildHandBench: A Benchmark for Handwritten Text Understanding that Challenges MLLMs and Humans)",
+            "Zhou et al. (Real5-OmniDocBench: A Full-Scale Physical Reconstruction Benchmark for Robust Document Parsing in the Wild)"
+          ]
+        },
+        {
+          "subsection_title": "Ablation Study and Forensic Case Study: Clerical Slips vs. Over-Voting (Section 51(2))",
+          "content_bullets": [
+            "Present the statutory gate ablation in Table 5: while a literal Section 51(2) check flags 58 out of 250 sheets (23.20%) for automatic cancellation, EC8A-Sentinel's Two-Tier Reconciliation proves that 38 of those 58 sheets (65.52%) are Class I Benign Clerical Slips, reducing unresolved over-voting anomalies to 20 sheets (8.00%).",
+            "Provide a detailed forensic dissection of Polling Unit 29/01/01/002 (UNITY PRY. SCHOOL, IWARA): candidate tallies sum to 252 (matching Valid Votes = 252), and adding 3 Rejected Ballots yields 255 actual ballots cast—matching BVAS Accredited Voters (255) with zero over-voting, whereas the Presiding Officer mistakenly wrote 261 in 'Total Ballot Papers Used'."
+          ],
+          "citation_hints": [
+            "Federal Republic of Nigeria (Electoral Act 2022, Sections 51(2) and 64(4))"
+          ]
+        }
+      ]
+    },
+    {
+      "section_title": "Conclusion",
+      "subsections": [
+        {
+          "subsection_title": "Summary of Findings and Sovereign Civic-Tech Impact",
+          "content_bullets": [
+            "Synthesize how 4-bit Qwen2.5-VL-7B-Instruct combined with Two-Tier Statutory Reconciliation achieves 98.77% exact digit extraction and 95.65% autonomous error interception at $0 API cost, enabling African civil society organizations to audit election uploads sovereignly.",
+            "Highlight the democratic significance of distinguishing clerical arithmetic slips (65.52% of Section 51 flags) from genuine over-voting to prevent the wrongful disenfranchisement of voters."
+          ],
+          "citation_hints": [
+            "Bai et al. (Qwen2.5-VL Technical Report)"
+          ]
+        },
+        {
+          "subsection_title": "Scope Boundaries and Future Directions",
+          "content_bullets": [
+            "Frame scope boundaries clearly: evaluation focuses on the 15-party Osun State governorship Form EC8A layout under single-pass greedy decoding; resolving the remaining 4.35% adjacent-row transposition errors requires bilingual figure-vs-word cross-verification and multi-model consensus.",
+            "Outline concrete next steps: integrating handwritten word-column cross-checking to catch sum-preserving row swaps and scaling the open-weight pipeline to national 36-state IReV archives."
+          ],
+          "citation_hints": [
+            "Zhang et al. (WildHandBench: A Benchmark for Handwritten Text Understanding that Challenges MLLMs and Humans)"
+          ]
+        }
+      ]
+    }
+  ]
+}

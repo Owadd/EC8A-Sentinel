@@ -1,0 +1,72 @@
+{
+  "tables": [
+    {
+      "label": "Overall Benchmark Performance on Osun-EC8A-250 vs. Published Handwritten Form Baselines",
+      "headers": ["Method", "Dataset", "Evaluated Fields", "Exact Match (%)", "Hallucination (%)", "Refusal (%)", "Flawless Sheets (%)"],
+      "rows": [
+        ["MNIST-ICR Unadapted", "Electoral Tally Sheets", "64596", "66.55", "33.45", "0.00", "0.00"],
+        ["MNIST+CVL Retrained BiLSTM", "Electoral Tally Sheets", "64596", "89.32", "10.68", "0.00", "0.00"],
+        ["Koncile Best VLM", "Medical Registry Forms", "490", "85.00", "6.00", "9.00", "0.00"],
+        ["WildHandBench Gemini 3.5 Flash", "WildHandBench Tables", "500", "53.63", "46.37", "0.00", "0.00"],
+        ["WildHandBench Gemini 3.1 Pro", "WildHandBench Tables", "500", "60.44", "39.56", "0.00", "0.00"],
+        ["WildHandBench PaddleOCR-VL-1.6", "WildHandBench Tables", "500", "52.41", "47.59", "0.00", "0.00"],
+        ["YOLOv5 + AWS Textract", "Kenya Form 34A", "46229", "97.00", "3.00", "0.00", "97.00"],
+        ["EC8A-Sentinel (Qwen2.5-VL-7B 4-bit)", "Osun-EC8A-250", "3750", "98.77", "1.23", "0.00", "88.80"]
+      ]
+    },
+    {
+      "label": "Per-Party Handwritten Vote Extraction Accuracy across 250 Polling Units",
+      "headers": ["Party", "Evaluated Cells", "Correct Cells", "Total Errors", "Exact Match (%)", "Ground Truth Votes", "AI Extracted Votes", "Absolute Vote Error", "Non-Zero Cells"],
+      "rows": [
+        ["A", "250", "242", "8", "96.80", "27939", "27498", "545", "248"],
+        ["AA", "250", "237", "13", "94.80", "171", "155", "16", "104"],
+        ["AAC", "250", "245", "5", "98.00", "129", "123", "6", "83"],
+        ["ADC", "250", "246", "4", "98.40", "818", "809", "9", "209"],
+        ["ADP", "250", "246", "4", "98.40", "199", "260", "71", "121"],
+        ["APC", "250", "245", "5", "98.00", "30965", "30640", "337", "249"],
+        ["APGA", "250", "248", "2", "99.20", "115", "113", "2", "74"],
+        ["APM", "250", "250", "0", "100.00", "15", "15", "0", "14"],
+        ["APP", "250", "250", "0", "100.00", "7", "7", "0", "7"],
+        ["BP", "250", "250", "0", "100.00", "4", "4", "0", "4"],
+        ["NNPP", "250", "250", "0", "100.00", "6", "6", "0", "6"],
+        ["PRP", "250", "250", "0", "100.00", "3", "3", "0", "3"],
+        ["SDP", "250", "248", "2", "99.20", "13", "20", "9", "13"],
+        ["YPP", "250", "248", "2", "99.20", "42", "40", "2", "36"],
+        ["ZLP", "250", "249", "1", "99.60", "199", "206", "7", "110"],
+        ["Total / Overall", "3750", "3704", "46", "98.77", "60625", "59899", "1004", "1281"]
+      ]
+    },
+    {
+      "label": "Local Government Area (LGA) Breakdown of Vision Extraction and Statutory Audits",
+      "headers": ["Dataset", "Audited Sheets", "Evaluated Fields", "Correct Cells", "Exact Match (%)", "Flawless Sheets (%)", "Sec51 Flagged (%)", "Sec64 Balanced (%)"],
+      "rows": [
+        ["ATAKUMOSA EAST", "75", "1125", "1100", "97.78", "82.67", "22.67", "78.67"],
+        ["ATAKUMOSA WEST", "75", "1125", "1121", "99.64", "96.00", "18.67", "94.67"],
+        ["AYEDAADE", "100", "1500", "1483", "98.87", "88.00", "27.00", "79.00"],
+        ["Osun-EC8A-250 Total", "250", "3750", "3704", "98.77", "88.80", "23.20", "83.60"]
+      ]
+    },
+    {
+      "label": "Failure Mode Taxonomy and Section 64(4) Automatic Error Interception across All 46 Misread Cells",
+      "headers": ["Failure Mode Category", "Total Errors", "Share of Errors (%)", "Mean Absolute Vote Error", "Intercepted by Sec64 Gate", "Sec64 Detection Rate (%)"],
+      "rows": [
+        ["Sparse-Row Small-Digit Omission (1-4 read as 0)", "29", "63.04", "1.38", "29", "100.00"],
+        ["Grid-Line Leading-Digit Truncation (-100 drop)", "5", "10.87", "100.00", "5", "100.00"],
+        ["Stroke-Similarity Substitution (e.g. 2 vs 9, 0 vs 6)", "8", "17.39", "9.63", "8", "100.00"],
+        ["Full-Row Vote Dropout (191 or 71 read as 0)", "2", "4.35", "131.00", "2", "100.00"],
+        ["Adjacent-Row Vertical Transposition (ADP vs APC)", "2", "4.35", "60.00", "0", "0.00"],
+        ["Total All Errors", "46", "100.00", "21.83", "44", "95.65"]
+      ]
+    },
+    {
+      "label": "Ablation of Statutory Audit Gates on Section 51(2) Over-Voting Classification and Error Leakage",
+      "headers": ["Audit Pipeline Variant", "Audited Sheets", "Sec51 Flagged Count", "Sec51 Flagged (%)", "Benign Clerical Slips Saved", "Unresolved Over-VotingPct (%)", "Uncaught OCR Errors Leaked", "Error Interception Rate (%)"],
+      "rows": [
+        ["Raw VLM Extraction Only (No Statutory Gates)", "250", "0", "0.00", "0", "0.00", "46", "0.00"],
+        ["+ Literal Sec 51(2) Gate Only (Cast > Accredited)", "250", "58", "23.20", "0", "23.20", "46", "0.00"],
+        ["+ Sec 64(4) Collation Sum Gate Only", "250", "0", "0.00", "0", "0.00", "2", "95.65"],
+        ["EC8A-Sentinel Full (Two-Tier Sec 51 + Sec 64 Reconciliation)", "250", "58", "23.20", "38", "8.00", "2", "95.65"]
+      ]
+    }
+  ]
+}

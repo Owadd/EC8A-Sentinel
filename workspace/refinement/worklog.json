@@ -1,0 +1,15 @@
+{
+  "iterations": [
+    {
+      "iter": 1,
+      "timestamp": "2026-11-14T13:14:29.845Z",
+      "score": {
+        "overall": 85,
+        "decision_band": "Accept"
+      },
+      "decision": "accept_target_met"
+    }
+  ],
+  "halted_because": "target_met_accept_band",
+  "best_iter": 1
+}

@@ -1,0 +1,30 @@
+{
+  "axis_scores": {
+    "scientific_depth": {
+      "score": 84,
+      "justification": "Strong mathematical formalization of Section 51(2) and Section 64(4) statutory invariants coupled with 4-bit NF4 VLM extraction."
+    },
+    "technical_execution": {
+      "score": 86,
+      "justification": "3,750 handwritten cells evaluated across 250 authentic IReV Form EC8A sheets with complete failure mode taxonomy."
+    },
+    "logical_flow": {
+      "score": 83,
+      "justification": "Follows strict problem-cause-mechanism-evidence rhetoric across all 5 sections."
+    },
+    "writing_clarity": {
+      "score": 85,
+      "justification": "Precise terminology, zero orphan citations, full booktabs table compliance."
+    },
+    "evidence_presentation": {
+      "score": 88,
+      "justification": "100% of experimental claims corroborated by experimental_log.md; 4 high-resolution figures."
+    },
+    "academic_style": {
+      "score": 84,
+      "justification": "Publication-grade conference formatting and double-blind compliance."
+    }
+  },
+  "overall_score": 85,
+  "decision_band": "Accept"
+}

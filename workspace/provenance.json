@@ -1,0 +1,81 @@
+{
+  "created_at": "2026-11-14T13:14:29.860Z",
+  "inputs": {
+    "idea.md": {
+      "sha256": "43f0a98e72846b16bc3e3a9a01ce7803e86bb6b46d513191d8b15a4dfd7c62d2"
+    },
+    "experimental_log.md": {
+      "sha256": "ce1ac99f5dfaeb128ac90b1ca1000e548576c38ad69fea67e1eae7e41c36fb89"
+    },
+    "template.tex": {
+      "sha256": "1fbbb1a4a0b267ffd39ccb5936ec1745aa39c2bdc6b448b6fcb4f26fe40a13fa"
+    },
+    "conference_guidelines.md": {
+      "sha256": "09e71979123b3f5a8aa8af9907f6bc7b7e9ab3af52e219a3247b90072b1bed45"
+    }
+  },
+  "outline.json": {
+    "sha256": "bd8e1f84ea766ca53d32c2b1ddac6de082983f9abb73dfacdc8264925357865c"
+  },
+  "refs.bib": {
+    "sha256": "be7d2b74f63737dd96366db3d36774cff7aa700d112f6ecafb8b99977c1b47e2",
+    "n_entries": 20
+  },
+  "gates": {
+    "validate_inputs": {
+      "status": "PASS",
+      "leaksInLog": []
+    },
+    "check_idea_density": {
+      "status": "PASS",
+      "ideaWords": 930,
+      "tableCount": 5,
+      "numericCount": 579,
+      "jaccard": 0.343
+    },
+    "validate_outline": {
+      "status": "PASS",
+      "figures": 4,
+      "relworkClusters": 3,
+      "sections": 3
+    },
+    "figure_lint": {
+      "status": "PASS",
+      "referencedCount": 4,
+      "captionsCount": 4
+    },
+    "citation_coverage": {
+      "status": "PASS",
+      "citedInIntroRelwork": 20,
+      "poolSize": 20,
+      "minRequired": 18,
+      "coveragePct": 100
+    },
+    "orphan_cite_gate": {
+      "status": "PASS",
+      "bibEntries": 20,
+      "uniqueCitedInPaper": 20,
+      "orphans": []
+    },
+    "latex_sanity": {
+      "status": "PASS",
+      "braceDelta": 0,
+      "envErrors": []
+    },
+    "anti_leakage_check": {
+      "status": "PASS",
+      "emails": [],
+      "corrAuthor": []
+    },
+    "claim_evidence_gate": {
+      "status": "PASS",
+      "summary": {
+        "total": 96,
+        "supported": 81,
+        "unsupported": 0,
+        "uncertain": 15
+      },
+      "unsupported": []
+    }
+  }
+}
